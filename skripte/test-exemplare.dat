@@ -1,0 +1,54 @@
+003@ $0011736070
+101@ $a1
+209A/02 $aBö F III 795$x00
+209A/02 $fDBSM/F/Bö$gBö F III 795$x09
+209C/02 $aL-1730-163500347
+247C/02 $9009030115$0950200-2$S101a$LSAX$TDE-101a$I0001$ZCC0$hk$ADeutsche Nationalbibliothek Leipzig$aLeipzig DNB
+101@ $a16
+209A/01 $a8 EPH LIT 242/5$ds$lk$x00
+209A/01 $fHG-FB$x09
+247C/01 $9009004742$0341000-6$S7$LNIE$TDE-7$I0016$ZCC0$cS$gGBV$hl$ANiedersächsische Staats- und Universitätsbibliothek Göttingen$aGöttingen SUB
+101@ $a19
+209A/01 $a28 x:F8$x00
+209A/01 $fZeitschriften$x09
+247C/01 $9009024409$0130000-3$S11$LBER$TDE-11$I0019$KBVB$ZCC0$cS$gKOBV$hk$AHumboldt-Universität zu Berlin, Universitätsbibliothek, Jacob-und-Wilhelm-Grimm-Zentrum$aBerlin UBHU Grimm-Zentrum
+101@ $a20
+209A/01 $aFilm R 97.8$x00
+247C/01 $9009023496$0800100-5$S12$LBAY$TDE-12$I0020$KBVB$ZCC0$cS$gBVB$hl$ABayerische Staatsbibliothek$aMünchen BSB
+101@ $a21
+209A/01 $aEph.lit.0505$x00
+247C/01 $9009030077$0950100-9$S14$LSAX$TDE-14$I0021$KSWB$ZCC0$gSWB$hl$ASächsische Landesbibliothek - Staats- und Universitätsbibliothek Dresden$aDresden SLUB, ZB
+101@ $a35
+209A/01 $fH00$gH00/LTG-VIIII 96$x09
+247C/01 $9009024107$0851000-3$S29$LBAY$TDE-29$I0035$KBVB$ZCC0$cS$gBVB$hl$AUniversitätsbibliothek Erlangen-Nürnberg, Hauptbibliothek$aErlangen-Nürnberg UB
+101@ $a38
+209A/01 $a16, 8 : 90$ds$lk$x00
+209A/01 $fSaal$x09
+247C/01 $9009032215$0948110-2$S32$LTHU$TDE-32$I0038$ZCC0$gGBV$hl$AKlassik Stiftung Weimar / Herzogin Anna Amalia Bibliothek$aWeimar HAAB
+209A/02 $a16, 8 : 91$ds$lk$x00
+209A/02 $fSaal$x09
+247C/02 $9009032215$0948110-2$S32$LTHU$TDE-32$I0038$ZCC0$gGBV$hl$AKlassik Stiftung Weimar / Herzogin Anna Amalia Bibliothek$aWeimar HAAB
+209A/03 $a16, 8 : 92$ds$lk$x00
+209A/03 $fSaal$x09
+247C/03 $9009032215$0948110-2$S32$LTHU$TDE-32$I0038$ZCC0$gGBV$hl$AKlassik Stiftung Weimar / Herzogin Anna Amalia Bibliothek$aWeimar HAAB
+209A/04 $a16, 8 : 93$ds$lk$x00
+209A/04 $fSaal$x09
+247C/04 $9009032215$0948110-2$S32$LTHU$TDE-32$I0038$ZCC0$gGBV$hl$AKlassik Stiftung Weimar / Herzogin Anna Amalia Bibliothek$aWeimar HAAB
+
+003@ $001187922X
+101@ $a1
+209A/01 $aZ 1996 MF 172$x00
+209C/01 $aL-1766-13009434X
+247C/01 $9009030115$0950200-2$S101a$LSAX$TDE-101a$I0001$ZCC0$hk$ADeutsche Nationalbibliothek Leipzig$aLeipzig DNB
+209A/02 $aBö C V 619$x00
+209A/02 $fDBSM/F/Bö$gBö C V 619$x09
+209C/02 $aL-1766-163026556
+247C/02 $9009030115$0950200-2$S101a$LSAX$TDE-101a$I0001$ZCC0$hk$ADeutsche Nationalbibliothek Leipzig$aLeipzig DNB
+101@ $a2
+209A/01 $aZ 1996 MF 172$x00
+209A/01 $fHLS$g05.30.10/Joh$x09
+237A/01 $aStandort Mikrofiche-Schrank
+247C/01 $9009013849$0600100-2$S101b$LHES$TDE-101b$I0002$ZCC0$hk$ADeutsche Nationalbibliothek Frankfurt am Main$aFrankfurt/M DNB
+101@ $a11
+209A/01 $a50 PF 393$dd$x00
+247C/01 $900903482X$0910107-X$S1$LBER$TDE-1$I0011$ZCC0$gGBV$hl$AStaatsbibliothek zu Berlin - Preußischer Kulturbesitz, Haus Unter den Linden$aBerlin SBB Haus Unter d.Linden
