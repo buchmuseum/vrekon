@@ -124,7 +124,6 @@ def get_titel(datei: str) -> pd.DataFrame:
 
 titel = get_titel("böm-titel.csv")
 exemplare = get_exemplare("böm-exemplare.dat")
-
 exemplare = exemplare[
     ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
     & exemplare.signatur_a.str.startswith("Bö")
@@ -155,7 +154,8 @@ df = df[
         "exemplar",
     ]
 ]
-df = df[~df["signatur_g"].str.contains("angeb", na=False)]
+
+df = df.replace(r'', np.NaN)
 
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False)]
@@ -217,6 +217,8 @@ df = df[
     ]
 ]
 
+df = df.replace(r'', np.NaN)
+
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
 
@@ -273,6 +275,8 @@ df = df[
         "exemplar",
     ]
 ]
+
+df = df.replace(r'', np.NaN)
 
 # Filtered f4256
 df = df[df["f4256"].isna()]
@@ -331,6 +335,8 @@ df = df[
         "exemplar",
     ]
 ]
+
+df = df.replace(r'', np.NaN)
 
 # Filtered signatur_g
 df = df[~df["signatur_g"].str.contains("angeb", na=False)]
@@ -399,6 +405,9 @@ df = df[
         "exemplar",
     ]
 ]
+
+df = df.replace(r'', np.NaN)
+
 df.jahr = df.jahr.str.replace("X", "0")
 df.fillna({"jahr": "0"}, inplace=True)
 df = df.astype({"jahr": "int"})
@@ -481,4 +490,7 @@ df = df[
         "exemplar",
     ]
 ]
+
+df = df.replace(r'', np.NaN)
+
 df.to_csv("abzug/schreibmeister.csv", index=False)

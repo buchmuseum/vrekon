@@ -7,8 +7,10 @@ vars:
 stages:
   prepare:
     cmd: pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM'" ${raw_path}/DNBtitelundexemplare.dat.gz -o ${dump_path}/dbsm-titel-exemplare.dat.gz
+    
     deps:
       - ${raw_path}/DNBtitelundexemplare.dat.gz
+    
     outs:
       - ${dump_path}/dbsm-titel-exemplare.dat.gz
   
@@ -54,11 +56,13 @@ stages:
       - ${filter_path}/iv-exemplare.dat
       - ${filter_path}/schreibmeister-titel.csv
       - ${filter_path}/schreibmeister-exemplare.dat
+  
   abzug:
     cmd: 
       - python ./skripte/abzug.py
 
     deps:
+      - skripte/abzug.py
       - ${filter_path}/böm-titel.csv
       - ${filter_path}/böm-exemplare.dat
       - ${filter_path}/böink-titel.csv
