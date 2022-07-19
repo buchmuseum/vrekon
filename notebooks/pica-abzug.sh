@@ -1,5 +1,5 @@
 RAWPATH="../raw/"
-DATFILE="dbsm-titel-exemplare-22-7.dat"
+DATFILE="dbsm-titel-exemplare.dat"
 
 pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" "$RAWPATH$DATFILE" | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},021B{l,a},039D.9,039I.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g" -o "$RAWPATH"böm-titel.csv
 pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" "$RAWPATH$DATFILE" | pica print --translit nfc -o "$RAWPATH"böm-exemplare.dat
