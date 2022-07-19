@@ -32,7 +32,7 @@ filter: Aus dem Teilabzug der DBSM-Daten werden mit `pica-rs` für jeden Teilbes
 
 abzug: Die Titel- und Exemplardaten werden mit Python zu einer .csv pro Teilbestand synthetisiert.
 
-## Jupyter Notebook
+## Jupyter Notebook & sonstige Dateien
 
-Das Notebook ``
+Die Notebooks in `notebooks` werden mit `dvc repro` nicht ausgeführt. Sie dienen nur dem einfacheren Experimentieren mit den Daten. Änderungen an den Filtern müssen händisch nach `skripte/abzug.py` übertragen werden.
 
