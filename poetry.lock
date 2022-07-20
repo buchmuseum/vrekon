@@ -1091,6 +1091,18 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "natsort"
+version = "8.1.0"
+description = "Simple yet flexible natural sorting in Python."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+fast = ["fastnumbers (>=2.0.0)"]
+icu = ["PyICU (>=1.0.0)"]
+
+[[package]]
 name = "nbclassic"
 version = "0.4.3"
 description = "A web-based notebook environment for interactive computing"
@@ -1961,7 +1973,7 @@ test = ["zope.testing"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "3ac6ebdab393fb909b3e754ab2dca264a94efbcd0362e464c40af1b9e0dfb321"
+content-hash = "ec0686e8a3b97604c2b88142720055cd167d0ecb7c059c51b965e2ed890b9243"
 
 [metadata.files]
 aiohttp = []
@@ -2280,6 +2292,7 @@ monotonic = [
 ]
 multidict = []
 nanotime = []
+natsort = []
 nbclassic = []
 nbclient = [
     {file = "nbclient-0.6.6-py3-none-any.whl", hash = "sha256:09bae4ea2df79fa6bc50aeb8278d8b79d2036792824337fa6eee834afae17312"},
