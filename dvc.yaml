@@ -83,3 +83,5 @@ stages:
       - ${abzug_path}/iii.csv
       - ${abzug_path}/iv.csv
       - ${abzug_path}/schreibmeister.csv
+      - ${abzug_path}/schreibmeister.xlsx
+      - ${abzug_path}/iv.xlsx

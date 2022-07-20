@@ -449,6 +449,7 @@ df = df[~df["signatur_g"].str.contains("IV 114, 15", na=False)]
 df = df[~df["signatur_g"].str.contains("IV 114, 13a", na=False)]
 
 df.to_csv("abzug/iv.csv", index=False)
+df.to_excel("abzug/iv.xlsx", index=False)
 
 # Schreibmeisterbücher
 
@@ -494,3 +495,4 @@ df = df[
 df = df.replace(r'', np.NaN)
 
 df.to_csv("abzug/schreibmeister.csv", index=False)
+df.to_excel("abzug/schreibmeister.xlsx", index=False)
