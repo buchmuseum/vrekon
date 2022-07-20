@@ -249,7 +249,7 @@ df = df[~df["bbg"].str.contains("Aaq", na=False)]
 # Filtered standort
 df = df[df["standort"] != "DBSM/DA"]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 
 df.to_excel("abzug/böink.xlsx", index=False)
 df.to_csv("abzug/böink.csv", index=False)
@@ -258,7 +258,10 @@ df.to_csv("abzug/böink.csv", index=False)
 titel = get_titel("ii-titel.csv")
 
 exemplare = get_exemplare("ii-exemplare.dat")
-exemplare = exemplare[exemplare.signatur_a.str.startswith("II")]
+exemplare = exemplare[
+    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
+    & exemplare.signatur_a.str.startswith("II ")
+]
 
 df = titel.merge(exemplare, on="idn", how="right")
 df = df[
@@ -308,7 +311,7 @@ df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 # Filtered standort
 df = df[df["standort"] != "DBSM/DA"]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 df.to_excel("abzug/ii.xlsx", index=False)
 
 df.to_csv("abzug/ii.csv", index=False)
@@ -380,7 +383,7 @@ df = df[~df["bbg"].str.contains("Aaq", na=False)]
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("II 30,13", na=False)]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 df.to_excel("abzug/iii.xlsx", index=False)
 df.to_csv("abzug/iii.csv", index=False)
 
@@ -462,7 +465,7 @@ df = df[~df["signatur_a"].str.contains("IV 114, 15", na=False)]
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("IV 114, 13a", na=False)]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 
 df.to_csv("abzug/iv.csv", index=False)
 df.to_excel("abzug/iv.xlsx", index=False)
@@ -506,7 +509,7 @@ df = df[
 
 df = df.replace(r'', np.NaN)
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 
 df.to_csv("abzug/schreibmeister.csv", index=False)
 df.to_excel("abzug/schreibmeister.xlsx", index=False)

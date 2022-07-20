@@ -258,7 +258,10 @@ df.to_csv("abzug/böink.csv", index=False)
 titel = get_titel("ii-titel.csv")
 
 exemplare = get_exemplare("ii-exemplare.dat")
-exemplare = exemplare[exemplare.signatur_a.str.startswith("II")]
+exemplare = exemplare[
+    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
+    & exemplare.signatur_a.str.startswith("II ")
+]
 
 df = titel.merge(exemplare, on="idn", how="right")
 df = df[

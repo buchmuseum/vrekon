@@ -24,7 +24,7 @@ stages:
       
       - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/böink-exemplare.dat
 
-      - pica filter "209A/*.a =^ 'II' && 044P/*.9 == '040270416'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},021B{l,a},039D.9,039I.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g" -o ${filter_path}/ii-titel.csv
+      - pica filter "209A/*.a =^ 'II'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},021B{l,a},039D.9,039I.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g" -o ${filter_path}/ii-titel.csv
       
       - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'II' && 044P/*.9 == '040270416'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/ii-exemplare.dat
 
