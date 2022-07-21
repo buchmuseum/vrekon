@@ -3,7 +3,8 @@ from collections import defaultdict
 import re
 import numpy as np
 from natsort import index_natsorted
-import numpy as np
+
+filter_path = "filter"
 
 def make_nested_frame(dict) -> pd.DataFrame:
     """
@@ -39,12 +40,17 @@ def feldauswertung(kategorie: str, inhalt: str) -> list[tuple[str, str]]:
         ("237A", "k", "f4801_k"),
         ("247C", "9", "bibliothek"),
     ]
-
+    # [('standort', 'DBSM/M/Klemm'), ('signatur_g', 'II 1,2a - Fragm.')]
     for match in matchlist:
-        if kategorie == match[0]:
-            ergebnisse.append(
-                (match[2], "; ".join(re.findall(f"\${match[1]}([^\$]+)", inhalt)))
-            )
+        if (kategorie == match[0]):
+            if len(unterfeldsuche := re.findall(f"\${match[1]}([^\$]+)", inhalt)) > 0:
+                if (kategorie == '209A') and (re.findall(r"\$a.+\$x0[1-8]", inhalt)):
+                    pass
+                else:
+                    unterfeld = (match[2], "; ".join(unterfeldsuche))
+                    ergebnisse.append(
+                        unterfeld
+                    )
 
     return ergebnisse
 
@@ -53,27 +59,33 @@ def get_exemplare(datei: str) -> pd.DataFrame:
     """
     Auf IDN und Exemplardatenfelder reduzierter Dump, dessen Dateiname als Argument übergeben wird, wird in df mit gewünschten Feldern umgewandelt
     """
-    with open(f"filter/{datei}", "r") as f:
+    with open(f"{filter_path}/{datei}", "r") as f:
         df = pd.DataFrame(dtype="string")
         for l in f:
-            # print(l)
+            # Zeile wird getrennt in Kategorie und Inhalt, line[0] ist Kategorie, line[1] ist Inhalt
             line = l.split(" ", 1)
+            # wenn Leerzeile ist Datensatz zu Ende und alle Exemplare dieses Titels werden zunächst in ein df umgewandelt und dann an das df mit allen Exemplaren angehängt
             if l == "\n":
                 df = pd.concat([df, make_nested_frame(exemplare)])
 
+            # wenn beginn neuer titelsatz wird 3-fach verschachteltes dict exemplare neu angelegt und idn geschrieben
             elif line[0] == "003@":
                 exemplare = defaultdict(
                     lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(str)))
                 )
                 idn = line[1][2:].strip()
+            # wenn neue Einrichtung wird das geschrieben
             elif line[0] == "101@":
                 einrichtung = line[1][2:].strip()
 
+            # in allen anderen fällen werden die zeilen ausgelesen
             else:
+                # kategorie und okkurrenz werden getrennt
                 feld = line[0].split("/")
+                # die unterfelder werden in klartext übersetzt
                 feldergebnis = feldauswertung(feld[0], line[1].strip())
                 for ergebnis in feldergebnis:
-                    # der seltsame join deshalb, weil Felder auch wiederholt werden können und die Ergebnisse dann zusammengezogen und durch Semikolon getrennt werden. wahrscheinlich nicht die beste lösung.
+                    # wenn feld und unterfeld gleich sind, werden die ergebnisse durch Semikolon getrennt aneinander gehängt; in der funktion feldauswertung wird ausgeschlossen dass 209A/*.a zurückgegeben wird, wenn $x01-08 ist (damit werden altsignaturen aus 7101 ausgeschlossen)
                     exemplare[idn][einrichtung][feld[1]][ergebnis[0]] = "; ".join(
                         [ergebnis[1], exemplare[idn][einrichtung][feld[1]][ergebnis[0]]]
                     )
@@ -87,7 +99,7 @@ def get_exemplare(datei: str) -> pd.DataFrame:
 
 
 def get_titel(datei: str) -> pd.DataFrame:
-    df = pd.read_csv(f"filter/{datei}", low_memory=False, dtype="string")
+    df = pd.read_csv(f"{filter_path}/{datei}", low_memory=False, dtype="string")
     df["titel"] = df.tit_a.str.cat(df.tit_d, sep=" : ", na_rep="")
     df.loc[pd.notna(df.tit_Y), "titel"] = df.tit_Y
     df.titel = df.titel.str.slice(0, 150)
@@ -150,7 +162,6 @@ df = df[
         "ausleihcode",
         "sig_komm",
         "f4801_a",
-        "f4801_k",
         "bibliothek",
         "einrichtung",
         "exemplar",
@@ -215,7 +226,6 @@ df = df[
         "f4105_9",
         "f4105_g",
         "ausleihcode",
-        "sig_komm",
         "f4801_a",
         "f4801_k",
         "einrichtung",
@@ -311,11 +321,27 @@ df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 # Filtered standort
 df = df[df["standort"] != "DBSM/DA"]
 
+# Ausleihcode nicht e (= Moskauer Bestand)
+# Filtered ausleihcode
+df = df[~df['ausleihcode'].str.contains('e', na=False)]
+
 df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 df.to_excel("abzug/ii.xlsx", index=False)
 
 df.to_csv("abzug/ii.csv", index=False)
 
+# Abgleich mit BE-Listen
+excel = pd.read_excel(
+    "raw/II_Inkunabeln+_test_Wendler.xlsm", sheet_name="II_Inkunabeln+", dtype={"IDN": str}
+)
+excel.rename({"AKZ": "akz", "IDN": "idn"}, axis="columns", inplace=True)
+df['digitalisieren'] = "Ja"
+
+df_tmp = df.drop(['exemplar', 'einrichtung', 'f4243', 'stuecktitel', 'f4105_9', 'f4105_g', 'sig_komm', 'f4256', 'titel', 'ausleihcode', 'f4801_k', 'f4241', 'f4801_a'], axis=1)
+df3 = excel.merge(df_tmp, left_on=['akz', 'idn'], right_on=['akz', 'idn'], how='outer', suffixes=['_excel', '_df'])
+df3.fillna({'signatur_a': ''}, inplace=True)
+df3 = df3.sort_values(by=['signatur_a'], ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df3["signatur_a"])))
+df3.to_excel("abzug/II-mit-nachweis-test.xlsx", index=False)
 
 # III (Drucke 1501-1560)
 titel = get_titel("iii-titel.csv")
@@ -373,6 +399,10 @@ df = df[df["f4105_9"].isna()]
 
 # Filtered standort
 df = df[df["standort"] != "DBSM/DA"]
+
+# Ausleihcode nicht e (= Moskauer Bestand)
+# Filtered ausleihcode
+df = df[~df['ausleihcode'].str.contains('e', na=False)]
 
 # Filtered bbg
 df = df[df["bbg"] != "Hal"]
@@ -453,6 +483,10 @@ df = df[df["jahr"] <= 1785]
 # Filtered standort
 df = df[df["standort"] != "DBSM/DA"]
 
+# Ausleihcode nicht e (= Moskauer Bestand)
+# Filtered ausleihcode
+df = df[~df['ausleihcode'].str.contains('e', na=False)]
+
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("IV 205, 76", na=False)]
 
@@ -499,9 +533,7 @@ df = df[
         "f4105_9",
         "f4105_g",
         "ausleihcode",
-        "sig_komm",
         "f4801_a",
-        "f4801_k",
         "einrichtung",
         "exemplar",
     ]
@@ -513,3 +545,4 @@ df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=la
 
 df.to_csv("abzug/schreibmeister.csv", index=False)
 df.to_excel("abzug/schreibmeister.xlsx", index=False)
+

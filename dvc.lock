@@ -28,11 +28,11 @@ stages:
     - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'Bö Ink'
       || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit
       nfc -o filter/böink-exemplare.dat
-    - pica filter "209A/*.a =^ 'II'" dump/dbsm-titel-exemplare.dat.gz | pica select
+    - pica filter "209A/*.a =^ 'II '" dump/dbsm-titel-exemplare.dat.gz | pica select
       --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,tit_a, tit_d, tit_Y,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
       -o filter/ii-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'II'" dump/dbsm-titel-exemplare.dat.gz
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'II '" dump/dbsm-titel-exemplare.dat.gz
       | pica print --translit nfc -o filter/ii-exemplare.dat
     - pica filter "209A/*.a =^ 'III'" dump/dbsm-titel-exemplare.dat.gz | pica select
       --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
@@ -71,11 +71,11 @@ stages:
       md5: ba31dc00e9b5777225ef804c63ad1345
       size: 111223
     - path: filter/ii-exemplare.dat
-      md5: 8e177c32cb1945922136fcedf4b9e55e
-      size: 11337344
+      md5: de8fcec4b5aede1bef507572742c0696
+      size: 8405933
     - path: filter/ii-titel.csv
-      md5: f5139de4e38478c7ebc7e19dd973491c
-      size: 362279
+      md5: a2debef514fc07ba752eb524d8a68c2f
+      size: 90434
     - path: filter/iii-exemplare.dat
       md5: 98b7c11378afa7513152441fe885f8ca
       size: 3302829
