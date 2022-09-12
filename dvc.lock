@@ -5,95 +5,95 @@ stages:
       -o dump/dbsm-titel-exemplare.dat.gz
     deps:
     - path: /media/sf_linux-ext/pica/DNBtitelundexemplare.dat.gz
-      md5: 5bf5218db057da2a0be1895c66bb7cab
-      size: 7002248260
+      md5: 55ca7b8b286c9151b3b98ed9057ab99f
+      size: 7093316434
     outs:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: c4edc36ff32d057bb54ea65509db65c0
-      size: 120839477
+      md5: 24eecb030d5e0c3c406857bdfe0567d5
+      size: 121252869
   filter:
     cmd:
     - pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe
       M' || 209A/*.g =^ 'Boe M'" dump/dbsm-titel-exemplare.dat.gz | pica select --translit
-      nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
-      -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
+      nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g},047A.c"
+      -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g,int_bemerk"
       -o filter/böm-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'Bö M' ||
-      209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" dump/dbsm-titel-exemplare.dat.gz
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'Bö
+      M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" dump/dbsm-titel-exemplare.dat.gz
       | pica print --translit nfc -o filter/böm-exemplare.dat
     - pica filter "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz
-      | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
-      -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
+      | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g},047A.c"
+      -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g,int_bemerk"
       -o filter/böink-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'Bö Ink'
-      || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit
-      nfc -o filter/böink-exemplare.dat
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'Bö
+      Ink' || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz | pica print
+      --translit nfc -o filter/böink-exemplare.dat
     - pica filter "209A/*.a =^ 'II '" dump/dbsm-titel-exemplare.dat.gz | pica select
-      --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
-      -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
+      --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g},047A.c"
+      -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g,int_bemerk"
       -o filter/ii-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'II '" dump/dbsm-titel-exemplare.dat.gz
-      | pica print --translit nfc -o filter/ii-exemplare.dat
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'II '"
+      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/ii-exemplare.dat
     - pica filter "209A/*.a =^ 'III'" dump/dbsm-titel-exemplare.dat.gz | pica select
-      --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
-      -H "idn,bbg,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
+      --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g},047A.c"
+      -H "idn,bbg,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g,int_bemerk"
       -o filter/iii-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'III'" dump/dbsm-titel-exemplare.dat.gz
-      | pica print --translit nfc -o filter/iii-exemplare.dat
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'III'"
+      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/iii-exemplare.dat
     - pica filter "209A/*.a =^ 'IV'" dump/dbsm-titel-exemplare.dat.gz | pica select
-      --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
-      -H "idn,bbg,jahr,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
+      --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g},047A.c"
+      -H "idn,bbg,jahr,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g,int_bemerk"
       -o filter/iv-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "209A/*.a =^ 'IV'" dump/dbsm-titel-exemplare.dat.gz
-      | pica print --translit nfc -o filter/iv-exemplare.dat
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'IV'"
+      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/iv-exemplare.dat
     - pica filter "044P/*.9 == '041799844'" dump/dbsm-titel-exemplare.dat.gz | pica
-      select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
-      -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
+      select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g},047A.c"
+      -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g,int_bemerk"
       -o filter/schreibmeister-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@" "044P/*.9 == '041799844'
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "044P/*.9 == '041799844'
       && 011@.a =~ '^([01xX][0-7x][0-9xX][0-9xX])|([01xX][8][12][0-9xX])|([01xX][8][3][0])'"
       dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/schreibmeister-exemplare.dat
     deps:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: c4edc36ff32d057bb54ea65509db65c0
-      size: 120839477
+      md5: 24eecb030d5e0c3c406857bdfe0567d5
+      size: 121252869
     outs:
     - path: filter/böink-exemplare.dat
-      md5: b6e02264e13c6c73c46ce2822b06dac9
-      size: 43651
+      md5: 47887205cf7115265cbc07df4bbce82c
+      size: 45136
     - path: filter/böink-titel.csv
-      md5: adf2d8ca7e61c47f791625f93a290df1
-      size: 19022
+      md5: 22a428e381b636865f24401b9746a538
+      size: 20255
     - path: filter/böm-exemplare.dat
-      md5: 05ce6377d8075cee8ecacfe768646059
-      size: 201299
+      md5: 5fa986578eab3af6bf3453e6cbbbddb7
+      size: 202364
     - path: filter/böm-titel.csv
-      md5: 392b3a0396ba9cc5ba650cf0c81661f3
-      size: 128155
+      md5: 4af87bba7943b8de4d3a7d7485a5eba9
+      size: 128846
     - path: filter/ii-exemplare.dat
-      md5: de8fcec4b5aede1bef507572742c0696
-      size: 8405933
+      md5: 7af2a975a5c78ba769ec45adf51a78e0
+      size: 8392434
     - path: filter/ii-titel.csv
-      md5: 219ade19443f2efc312189425e61472f
-      size: 100851
+      md5: 8dfc4342352cb7dc3042d47fffe9a0af
+      size: 136334
     - path: filter/iii-exemplare.dat
-      md5: 98b7c11378afa7513152441fe885f8ca
-      size: 3302829
+      md5: 2de65226c146e579dd4d647a98852276
+      size: 3393088
     - path: filter/iii-titel.csv
-      md5: ba96417df0d6cea7b69e7a0b82097194
-      size: 293805
+      md5: 556477f581fd231a6cc935b425476b89
+      size: 312584
     - path: filter/iv-exemplare.dat
-      md5: 33d8ff5115f17d3a1ab6e44610a1b9b7
-      size: 4270547
+      md5: e4e0a9bf22f4993ae914e3d331e87552
+      size: 4373721
     - path: filter/iv-titel.csv
-      md5: 6754781de14c3d4fdcfdda0017e45168
-      size: 981310
+      md5: 3c6929933729a98ea986b01d9fe1193d
+      size: 1067394
     - path: filter/schreibmeister-exemplare.dat
-      md5: 6cab1d19f9785e23885d326c2c11edeb
-      size: 26885
+      md5: 17ce3100ec658ed7266022cb1460b074
+      size: 31102
     - path: filter/schreibmeister-titel.csv
-      md5: 8e10152f2286b38a023d70fdd392dfd9
-      size: 39372
+      md5: 26f33207183558128818a299b0979436
+      size: 48534
   abzug:
     cmd:
     - python ./skripte/abzug.py

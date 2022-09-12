@@ -39,6 +39,7 @@ def feldauswertung(kategorie: str, inhalt: str) -> list[tuple[str, str]]:
         ("237A", "a", "f4801_a"),
         ("237A", "k", "f4801_k"),
         ("247C", "9", "bibliothek"),
+        ("220C", "w", "wert"),
     ]
     # [('standort', 'DBSM/M/Klemm'), ('signatur_g', 'II 1,2a - Fragm.')]
     for match in matchlist:
@@ -166,6 +167,7 @@ df = df[
         "bibliothek",
         "einrichtung",
         "exemplar",
+        "wert",
     ]
 ]
 
@@ -232,6 +234,7 @@ df = df[
         "f4801_k",
         "einrichtung",
         "exemplar",
+        "wert",
     ]
 ]
 
@@ -298,6 +301,7 @@ df = df[
         "f4801_k",
         "einrichtung",
         "exemplar",
+        "wert",
     ]
 ]
 
