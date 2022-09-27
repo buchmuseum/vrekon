@@ -3,6 +3,7 @@ from collections import defaultdict
 import re
 import numpy as np
 from natsort import index_natsorted
+from typing import List, Tuple
 
 filter_path = "filter"
 
@@ -22,7 +23,7 @@ def make_nested_frame(dict) -> pd.DataFrame:
     )
 
 
-def feldauswertung(kategorie: str, inhalt: str) -> list[tuple[str, str]]:
+def feldauswertung(kategorie: str, inhalt: str) -> List[Tuple[str, str]]:
     """
     Die Funktion hat zwei Argumente: die Pica-Kategorie und den Feldinhalt.
     Per regex wird das gewünschte Unterfeld gesucht und in einem tuple mit der Klarfeldbezeichnung ausgegeben.
