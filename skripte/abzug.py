@@ -140,7 +140,7 @@ def get_titel(datei: str) -> pd.DataFrame:
 titel = get_titel("böm-titel.csv")
 exemplare = get_exemplare("böm-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
+    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)) | (exemplare.bibliothek == "009033645"))
     & exemplare.signatur_a.str.startswith("Bö")
 ]
 
@@ -274,7 +274,7 @@ titel = get_titel("ii-titel.csv")
 
 exemplare = get_exemplare("ii-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
+    ((exemplare.bibliothek == "009030115") | (exemplare.bibliothek == "009033645") | (pd.isna(exemplare.bibliothek)))
     & exemplare.signatur_a.str.startswith("II ")
 ]
 
@@ -355,7 +355,7 @@ titel = get_titel("iii-titel.csv")
 
 exemplare = get_exemplare("iii-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
+    ((exemplare.bibliothek == "009030115") | (exemplare.bibliothek == "009033645") | (pd.isna(exemplare.bibliothek)))
     & exemplare.signatur_a.str.startswith("III")
 ]
 
@@ -430,7 +430,7 @@ titel = get_titel("iv-titel.csv")
 
 exemplare = get_exemplare("iv-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)))
+    ((exemplare.bibliothek == "009030115") | (exemplare.bibliothek == "009033645") | (pd.isna(exemplare.bibliothek)))
     & exemplare.signatur_a.str.startswith("IV")
 ]
 

@@ -1,5 +1,6 @@
 vars:
-  - raw_path: '/media/sf_linux-ext/pica'
+  # - raw_path: '/media/sf_linux-ext/pica'
+  - raw_path: '/mnt/c/Daten/linux-ext/pica'
   - dump_path: 'dump'
   - filter_path: 'filter'
   - abzug_path: 'abzug'
