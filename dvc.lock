@@ -1,16 +1,16 @@
 schema: '2.0'
 stages:
   prepare:
-    cmd: pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM'" /mnt/c/Daten/linux-ext/pica/DNBtitelundexemplare.dat.gz
-      -o dump/dbsm-titel-exemplare.dat.gz
+    cmd: pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM' || 247C/*.9 == '009033645'"
+      /mnt/c/Daten/linux-ext/pica/DNBtitelundexemplare.dat.gz -o dump/dbsm-titel-exemplare.dat.gz
     deps:
     - path: /mnt/c/Daten/linux-ext/pica/DNBtitelundexemplare.dat.gz
       md5: 85c3e095791143d80182a43ba93d6462
       size: 7074969394
     outs:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: 2f5a61b3309ce5a1637a74ecb72d8d1a
-      size: 119639875
+      md5: 9595d9ce6358e8d50055d4cc02972766
+      size: 119640743
   filter:
     cmd:
     - pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe
@@ -51,12 +51,12 @@ stages:
       -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
       -o filter/schreibmeister-titel.csv
     - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "044P/*.9 == '041799844'
-      && 011@.a =~ '^([01xX][0-7x][0-9xX][0-9xX])|([01xX][8][12][0-9xX])|([01xX][8][3][0])'"
+      && 011@.a =~ '^([01xX][0-7xX][0-9xX][0-9xX])|([01xX][8][12][0-9xX])|([01xX][8][3][0])'"
       dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/schreibmeister-exemplare.dat
     deps:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: 2f5a61b3309ce5a1637a74ecb72d8d1a
-      size: 119639875
+      md5: 9595d9ce6358e8d50055d4cc02972766
+      size: 119640743
     outs:
     - path: filter/böink-exemplare.dat
       md5: 47887205cf7115265cbc07df4bbce82c
