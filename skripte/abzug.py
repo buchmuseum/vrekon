@@ -339,17 +339,17 @@ df.to_excel("abzug/ii.xlsx", index=False)
 df.to_csv("abzug/ii.csv", index=False)
 
 # Abgleich mit BE-Listen
-excel = pd.read_excel(
-    "raw/II_Inkunabeln+_test_Wendler.xlsm", sheet_name="II_Inkunabeln+", dtype={"IDN": str}
-)
-excel.rename({"AKZ": "akz", "IDN": "idn"}, axis="columns", inplace=True)
-df['digitalisieren'] = "Ja"
+# excel = pd.read_excel(
+#     "raw/II_Inkunabeln+_test_Wendler.xlsm", sheet_name="II_Inkunabeln+", dtype={"IDN": str}
+# )
+# excel.rename({"AKZ": "akz", "IDN": "idn"}, axis="columns", inplace=True)
+# df['digitalisieren'] = "Ja"
 
-df_tmp = df.drop(['exemplar', 'einrichtung', 'f4243', 'stuecktitel', 'f4105_9', 'f4105_g', 'sig_komm', 'f4256', 'titel', 'ausleihcode', 'f4801_k', 'f4241', 'f4801_a'], axis=1)
-df3 = excel.merge(df_tmp, left_on=['akz', 'idn'], right_on=['akz', 'idn'], how='outer', suffixes=['_excel', '_df'])
-df3.fillna({'signatur_a': ''}, inplace=True)
-df3 = df3.sort_values(by=['signatur_a'], ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df3["signatur_a"])))
-df3.to_excel("abzug/II-mit-nachweis-test.xlsx", index=False)
+# df_tmp = df.drop(['exemplar', 'einrichtung', 'f4243', 'stuecktitel', 'f4105_9', 'f4105_g', 'sig_komm', 'f4256', 'titel', 'ausleihcode', 'f4801_k', 'f4241', 'f4801_a'], axis=1)
+# df3 = excel.merge(df_tmp, left_on=['akz', 'idn'], right_on=['akz', 'idn'], how='outer', suffixes=['_excel', '_df'])
+# df3.fillna({'signatur_a': ''}, inplace=True)
+# df3 = df3.sort_values(by=['signatur_a'], ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df3["signatur_a"])))
+# df3.to_excel("abzug/II-mit-nachweis-test.xlsx", index=False)
 
 # III (Drucke 1501-1560)
 titel = get_titel("iii-titel.csv")

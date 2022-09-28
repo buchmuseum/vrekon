@@ -1,10 +1,10 @@
 schema: '2.0'
 stages:
   prepare:
-    cmd: pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM'" /media/sf_linux-ext/pica/DNBtitelundexemplare.dat.gz
+    cmd: pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM'" /mnt/c/Daten/linux-ext/pica/DNBtitelundexemplare.dat.gz
       -o dump/dbsm-titel-exemplare.dat.gz
     deps:
-    - path: /media/sf_linux-ext/pica/DNBtitelundexemplare.dat.gz
+    - path: /mnt/c/Daten/linux-ext/pica/DNBtitelundexemplare.dat.gz
       md5: 85c3e095791143d80182a43ba93d6462
       size: 7074969394
     outs:

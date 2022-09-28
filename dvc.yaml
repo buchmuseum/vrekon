@@ -76,7 +76,7 @@ stages:
       - ${filter_path}/iv-exemplare.dat
       - ${filter_path}/schreibmeister-titel.csv
       - ${filter_path}/schreibmeister-exemplare.dat
-      - raw/II_Inkunabeln+_test_Wendler.xlsm
+      # - raw/II_Inkunabeln+_test_Wendler.xlsm
     
     outs:
       - ${abzug_path}/böm.csv
