@@ -1,10 +1,7 @@
 Fragen für Sarah Eimer
 
-umfassende Sätze bei Inkunabel, d.h. ggf. mehrere Bände unter einer IDN
-sind AaB-Sätze ein Problem, z. B. bei der O-Satz-Erstellung (30 in III und mehrere)
+sind AaB-Sätze ein Problem, z. B. bei der O-Satz-Erstellung (30 in III und mehrere) ?
 
 Filtern, Satzart Aal und 4201 beginnt mit "in:"
-
-https://d-nb.info/997102381 Inhaltsgleich in digitaler Form ist aber etwas ganz anderes als das Digitalisat der Erstausgabe; in anderen Fällen sind Digitalisate anderer Bibliotheken verlinkt.
 
 Problem Qd-Verknüpfung im Titelsatz kann mehrere Exemplare haben, von denen auch eines selbständig sein kann, bei ausfiltern der 4105 fallen diese Exemplare auch heraus. 

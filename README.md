@@ -16,7 +16,7 @@ Praktisch für die Notebooks aber nicht unbedingt notwendig:
 
 ## Datapipeline
 
-Mit diesem Repository werden aus dem monatlichen Gesamtabzug der DNB-Daten `DNBtitelundexemplare.dat.gz` einzelne .csv-Dateien gebildet, welche die zu digitalisierenden Bestände im Projekt Virtuelle Rekonstruktion der DNB-Buchsammlungen enthalten.
+Mit diesem Repository werden aus dem monatlichen Gesamtabzug der DNB-Daten `DNBtitelundexemplare.dat.gz` pro Bestandsgruppe .csv & .xlsx-Dateien gebildet, welche die zu digitalisierenden Bestände im Projekt Virtuelle Rekonstruktion der DNB-Buchsammlungen enthalten.
 
 Die Data-Pipeline wird mit dem Tool `dvc` erstellt. Dieses Tool ruft in mehreren voneinander abhängigen Stages verschiedene Skripte auf, die die finalen Dateien produzieren.
 
@@ -36,3 +36,6 @@ abzug: Die Titel- und Exemplardaten werden mit Python zu einer .csv pro Teilbest
 
 Die Notebooks in `notebooks` werden mit `dvc repro` nicht ausgeführt. Sie dienen nur dem einfacheren Experimentieren mit den Daten. Änderungen an den Filtern müssen händisch nach `skripte/abzug.py` übertragen werden.
 
+## einzelne IDNs vom Projekt ausschließen
+
+Im Stammverzeichnis des Projektes liegt die Datei `ausschluss_liste.txt` Alle dort enthaltenen IDNs werden automatisch aus dem Projekt entfernt.
