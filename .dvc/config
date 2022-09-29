@@ -1,0 +1,4 @@
+[core]
+    remote = abzug
+['remote "abzug"']
+    url = /mnt/c/Daten/vrekon-abzug
