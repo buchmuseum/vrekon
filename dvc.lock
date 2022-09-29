@@ -98,58 +98,82 @@ stages:
     cmd:
     - python ./skripte/abzug.py
     deps:
+    - path: ausschluss_liste.txt
+      md5: e8eaed4d7d07b34a5dc9f019d4fe17ae
+      size: 234
     - path: filter/böink-exemplare.dat
-      md5: b6e02264e13c6c73c46ce2822b06dac9
-      size: 43651
+      md5: 47887205cf7115265cbc07df4bbce82c
+      size: 45136
     - path: filter/böink-titel.csv
-      md5: 947dde481d81139784b1d4f14fbf8055
-      size: 14847
+      md5: adf2d8ca7e61c47f791625f93a290df1
+      size: 19022
     - path: filter/böm-exemplare.dat
-      md5: 05ce6377d8075cee8ecacfe768646059
-      size: 201299
+      md5: fe2c63891e321e9e621c10ad9190a57a
+      size: 179903
     - path: filter/böm-titel.csv
-      md5: ba31dc00e9b5777225ef804c63ad1345
-      size: 111223
+      md5: ac523e4167184f137681802bff41c23c
+      size: 127856
     - path: filter/ii-exemplare.dat
-      md5: 70f7adacc852680dadb732519158943a
-      size: 116258
+      md5: 6c1365a3ae8dea4a97999b4fc058b701
+      size: 7068460
     - path: filter/ii-titel.csv
-      md5: ccbcd8155eba9b7de6b0213acf860277
-      size: 44450
+      md5: 19a58de9e8245307f0e216fa081f52c0
+      size: 102567
     - path: filter/iii-exemplare.dat
-      md5: 98b7c11378afa7513152441fe885f8ca
-      size: 3302829
+      md5: d5e72095b933af27fa35caa9a42ff115
+      size: 3155909
     - path: filter/iii-titel.csv
-      md5: 48b80a499e55e622f2a8ecd2c9f6c60a
-      size: 267460
+      md5: 9dffeee46a6063934fb8b051b2d5f30a
+      size: 296847
     - path: filter/iv-exemplare.dat
-      md5: 33d8ff5115f17d3a1ab6e44610a1b9b7
-      size: 4270547
+      md5: 271bed2f9302ac8b26b8d9e9b987f23a
+      size: 3805963
     - path: filter/iv-titel.csv
-      md5: ecbbdf3ab2d661fdb2e399b941428ba4
-      size: 850105
+      md5: 04c80ef01937c32335f94964a422b50a
+      size: 997410
     - path: filter/schreibmeister-exemplare.dat
-      md5: 6cab1d19f9785e23885d326c2c11edeb
-      size: 26885
+      md5: 0014c789eb78c4607bfbb30c6e12bbc9
+      size: 30824
     - path: filter/schreibmeister-titel.csv
-      md5: 0b576749ff5292552da0370a01930394
-      size: 34493
+      md5: 7df29fac2d4fd930d776f7b7ab08e60b
+      size: 40671
+    - path: skripte/abzug.py
+      md5: d7b2e6da35498c4438f04cf318a5479d
+      size: 15339
     outs:
     - path: abzug/böink.csv
-      md5: f10850c09b17081ccabbf1d239843fda
-      size: 153
+      md5: ee172b8a285eab341397467a1d9110f1
+      size: 39887
+    - path: abzug/böink.xlsx
+      md5: c75a706cf57108525799d54d7efb49d3
+      size: 27354
     - path: abzug/böm.csv
-      md5: 6663a7f430d642c6132bb3794039705c
-      size: 164
+      md5: aa03c6f77e31bf6ae9ca8fe9134138be
+      size: 108543
+    - path: abzug/böm.xlsx
+      md5: f0914a2c11cf3f8909dac07f236a351d
+      size: 66258
     - path: abzug/ii.csv
-      md5: f10850c09b17081ccabbf1d239843fda
-      size: 153
+      md5: 1a64bbf7d2ada433b103d4414efac727
+      size: 91454
+    - path: abzug/ii.xlsx
+      md5: cad2ac46cb3b19a60ed6abc5b41e2eec
+      size: 57561
     - path: abzug/iii.csv
-      md5: f10850c09b17081ccabbf1d239843fda
-      size: 153
+      md5: 22dd060580f609c04fa4e58623fe293d
+      size: 245768
+    - path: abzug/iii.xlsx
+      md5: b57dfba62500d1997e6ff26e9c16088c
+      size: 138738
     - path: abzug/iv.csv
-      md5: ebe13bc0748ee8e180b877a6560b6f95
-      size: 169
+      md5: 8719deda11ba6ce11b287ea21e139835
+      size: 883396
+    - path: abzug/iv.xlsx
+      md5: e54cee768c40f76e5f242c71e75c6989
+      size: 461986
     - path: abzug/schreibmeister.csv
-      md5: f404fd7d24710c77b136d51b1f692b7c
-      size: 42208
+      md5: 02528377c0d69d4f38bba2a8cbcb8e81
+      size: 47058
+    - path: abzug/schreibmeister.xlsx
+      md5: 9bd16ed493591d190db9f0df5cf3c3c8
+      size: 31835

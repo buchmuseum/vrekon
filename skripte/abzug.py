@@ -135,6 +135,18 @@ def get_titel(datei: str) -> pd.DataFrame:
 
     return df.astype("string")
 
+def ausschlussliste() -> List:
+    liste = list()
+    with open("ausschluss_liste.txt", "r") as f:
+        while True:
+            line = f.readline()
+            if line.startswith('#'):
+                pass
+            elif line:
+                liste.append(line.strip())
+            elif not line:
+                break
+    return liste
 
 # Bö M
 
@@ -177,11 +189,8 @@ df = df.replace(r'', np.NaN)
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
-# Filtered f4243
-df = df[df["f4243"].isna()]
-
-# Filtered f4256
-df = df[df["f4256"].isna()]
+# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(ausschlussliste())]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
@@ -244,11 +253,8 @@ df = df.replace(r'', np.NaN)
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
 
-# Filtered f4241
-df = df[df["f4241"].isna()]
-
-# Filtered f4256
-df = df[df["f4256"].isna()]
+# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(ausschlussliste())]
 
 # Filtered f4243
 df = df[df["f4243"].isna()]
@@ -308,17 +314,14 @@ df = df[
 
 df = df.replace(r'', np.NaN)
 
-# Filtered f4256
-df = df[df["f4256"].isna()]
+# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(ausschlussliste())]
 
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
-
-# Filtered f4243
-df = df[df["f4243"].isna()]
 
 # Filtered signatur_g
 df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
@@ -338,18 +341,6 @@ df.to_excel("abzug/ii.xlsx", index=False)
 
 df.to_csv("abzug/ii.csv", index=False)
 
-# Abgleich mit BE-Listen
-# excel = pd.read_excel(
-#     "raw/II_Inkunabeln+_test_Wendler.xlsm", sheet_name="II_Inkunabeln+", dtype={"IDN": str}
-# )
-# excel.rename({"AKZ": "akz", "IDN": "idn"}, axis="columns", inplace=True)
-# df['digitalisieren'] = "Ja"
-
-# df_tmp = df.drop(['exemplar', 'einrichtung', 'f4243', 'stuecktitel', 'f4105_9', 'f4105_g', 'sig_komm', 'f4256', 'titel', 'ausleihcode', 'f4801_k', 'f4241', 'f4801_a'], axis=1)
-# df3 = excel.merge(df_tmp, left_on=['akz', 'idn'], right_on=['akz', 'idn'], how='outer', suffixes=['_excel', '_df'])
-# df3.fillna({'signatur_a': ''}, inplace=True)
-# df3 = df3.sort_values(by=['signatur_a'], ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df3["signatur_a"])))
-# df3.to_excel("abzug/II-mit-nachweis-test.xlsx", index=False)
 
 # III (Drucke 1501-1560)
 titel = get_titel("iii-titel.csv")
@@ -394,11 +385,8 @@ df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
-# Filtered f4243
-df = df[df["f4243"].isna()]
-
-# Filtered f4256
-df = df[df["f4256"].isna()]
+# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(ausschlussliste())]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
@@ -475,11 +463,8 @@ df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
-# Filtered f4243
-df = df[df["f4243"].isna()]
-
-# Filtered f4256
-df = df[df["f4256"].isna()]
+# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(ausschlussliste())]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
@@ -551,6 +536,9 @@ df = df[
 ]
 
 df = df.replace(r'', np.NaN)
+
+# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(ausschlussliste())]
 
 df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 

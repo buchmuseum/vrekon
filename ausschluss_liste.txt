@@ -1,0 +1,11 @@
+# Pro Zeile eine IDN, keine Kommas, keine Anführungszeichen etc. IDNs in dieser Liste werden nicht in das Projekt aufgenommen.
+1003856543
+1064781187
+997383259
+994726791
+997309466
+1066785597
+1066869103
+1100197079
+1132656737
+1132656745
