@@ -87,8 +87,7 @@ stages:
       - ${filter_path}/iv-exemplare.dat
       - ${filter_path}/schreibmeister-titel.csv
       - ${filter_path}/schreibmeister-exemplare.dat
-      - ausschluss_liste.txt
-      # - raw/II_Inkunabeln+_test_Wendler.xlsm
+      - blacklist.txt
     
     outs:
       - ${abzug_path}/böm.csv
@@ -103,4 +102,3 @@ stages:
       - ${abzug_path}/böink.xlsx
       - ${abzug_path}/ii.xlsx
       - ${abzug_path}/iii.xlsx
-      #- ${abzug_path}/II-mit-nachweis-test.xlsx
