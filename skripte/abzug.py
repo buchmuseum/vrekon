@@ -135,7 +135,7 @@ def get_titel(datei: str) -> pd.DataFrame:
 
     return df.astype("string")
 
-def ausschlussliste() -> List:
+def blacklist() -> Tuple:
     liste = list()
     with open("blacklist.txt", "r") as f:
         while True:
@@ -143,10 +143,10 @@ def ausschlussliste() -> List:
             if line.startswith('#'):
                 pass
             elif line:
-                liste.append(line.strip())
+                liste.append(line.split("#")[0].strip())
             elif not line:
                 break
-    return liste
+    return tuple(liste)
 
 # Bö M
 
@@ -189,8 +189,8 @@ df = df.replace(r'', np.NaN)
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
-# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(ausschlussliste())]
+# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(blacklist())]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
@@ -253,8 +253,8 @@ df = df.replace(r'', np.NaN)
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
 
-# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(ausschlussliste())]
+# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(blacklist())]
 
 # Filtered f4243
 df = df[df["f4243"].isna()]
@@ -314,8 +314,8 @@ df = df[
 
 df = df.replace(r'', np.NaN)
 
-# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(ausschlussliste())]
+# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(blacklist())]
 
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
@@ -385,8 +385,8 @@ df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
-# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(ausschlussliste())]
+# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(blacklist())]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
@@ -463,8 +463,8 @@ df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
-# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(ausschlussliste())]
+# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(blacklist())]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
@@ -537,8 +537,8 @@ df = df[
 
 df = df.replace(r'', np.NaN)
 
-# idns aus der datei ausschlussliste im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(ausschlussliste())]
+# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+df = df[~df.idn.isin(blacklist())]
 
 df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
 
