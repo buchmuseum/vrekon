@@ -7,6 +7,7 @@ from typing import List, Tuple
 
 filter_path = "filter"
 
+
 def make_nested_frame(dict) -> pd.DataFrame:
     """
     Die Funktion nimmt ein dreifach verschachteltes Dict und generiert daraus ein DataFrame mit dreifachem index
@@ -44,15 +45,13 @@ def feldauswertung(kategorie: str, inhalt: str) -> List[Tuple[str, str]]:
     ]
     # [('standort', 'DBSM/M/Klemm'), ('signatur_g', 'II 1,2a - Fragm.')]
     for match in matchlist:
-        if (kategorie == match[0]):
-            if len(unterfeldsuche := re.findall(f"\${match[1]}([^\$]+)", inhalt)) > 0:
-                if (kategorie == '209A') and (re.findall(r"\$a.+\$x0[1-8]", inhalt)):
+        if kategorie == match[0]:
+            if len(unterfeldsuche := re.findall(r"\${match[1]}([^\$]+)", inhalt)) > 0:
+                if (kategorie == "209A") and (re.findall(r"\$a.+\$x0[1-8]", inhalt)):
                     pass
                 else:
                     unterfeld = (match[2], "; ".join(unterfeldsuche))
-                    ergebnisse.append(
-                        unterfeld
-                    )
+                    ergebnisse.append(unterfeld)
 
     return ergebnisse
 
@@ -135,12 +134,13 @@ def get_titel(datei: str) -> pd.DataFrame:
 
     return df.astype("string")
 
+
 def blacklist() -> Tuple:
     liste = list()
     with open("blacklist.txt", "r") as f:
         while True:
             line = f.readline()
-            if line.startswith('#'):
+            if line.startswith("#"):
                 pass
             elif line:
                 liste.append(line.split("#")[0].strip())
@@ -148,12 +148,17 @@ def blacklist() -> Tuple:
                 break
     return tuple(liste)
 
+
 # Bö M
 
 titel = get_titel("böm-titel.csv")
 exemplare = get_exemplare("böm-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (pd.isna(exemplare.bibliothek)) | (exemplare.bibliothek == "009033645"))
+    (
+        (exemplare.bibliothek == "009030115")
+        | (pd.isna(exemplare.bibliothek))
+        | (exemplare.bibliothek == "009033645")
+    )
     & exemplare.signatur_a.str.startswith("Bö")
 ]
 
@@ -184,7 +189,7 @@ df = df[
     ]
 ]
 
-df = df.replace(r'', np.NaN)
+df = df.replace(r"", np.NaN)
 
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
@@ -210,7 +215,12 @@ df = df[df["bbg"] != "Hfl"]
 # Filtered bbg
 df = df[df["bbg"] != "Pa"]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda X: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(
+    by="signatur_a",
+    ascending=True,
+    na_position="first",
+    key=lambda X: np.argsort(index_natsorted(df["signatur_a"])),
+)
 
 df.to_excel("abzug/böm.xlsx", index=False)
 df.to_csv("abzug/böm.csv", index=False)
@@ -248,7 +258,7 @@ df = df[
     ]
 ]
 
-df = df.replace(r'', np.NaN)
+df = df.replace(r"", np.NaN)
 
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
@@ -271,7 +281,12 @@ df = df[~df["bbg"].str.contains("Aaq", na=False)]
 # Filtered standort
 df = df[df["standort"] != "DBSM/DA"]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(
+    by="signatur_a",
+    ascending=True,
+    na_position="first",
+    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
+)
 
 df.to_excel("abzug/böink.xlsx", index=False)
 df.to_csv("abzug/böink.csv", index=False)
@@ -281,7 +296,11 @@ titel = get_titel("ii-titel.csv")
 
 exemplare = get_exemplare("ii-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (exemplare.bibliothek == "009033645") | (pd.isna(exemplare.bibliothek)))
+    (
+        (exemplare.bibliothek == "009030115")
+        | (exemplare.bibliothek == "009033645")
+        | (pd.isna(exemplare.bibliothek))
+    )
     & exemplare.signatur_a.str.startswith("II ")
 ]
 
@@ -312,7 +331,7 @@ df = df[
     ]
 ]
 
-df = df.replace(r'', np.NaN)
+df = df.replace(r"", np.NaN)
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
@@ -334,9 +353,14 @@ df = df[df["standort"] != "DBSM/DA"]
 
 # Ausleihcode nicht e (= Moskauer Bestand)
 # Filtered ausleihcode
-df = df[~df['ausleihcode'].str.contains('e', na=False)]
+df = df[~df["ausleihcode"].str.contains("e", na=False)]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(
+    by="signatur_a",
+    ascending=True,
+    na_position="first",
+    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
+)
 df.to_excel("abzug/ii.xlsx", index=False)
 
 df.to_csv("abzug/ii.csv", index=False)
@@ -347,7 +371,11 @@ titel = get_titel("iii-titel.csv")
 
 exemplare = get_exemplare("iii-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (exemplare.bibliothek == "009033645") | (pd.isna(exemplare.bibliothek)))
+    (
+        (exemplare.bibliothek == "009030115")
+        | (exemplare.bibliothek == "009033645")
+        | (pd.isna(exemplare.bibliothek))
+    )
     & exemplare.signatur_a.str.startswith("III")
 ]
 
@@ -377,7 +405,7 @@ df = df[
     ]
 ]
 
-df = df.replace(r'', np.NaN)
+df = df.replace(r"", np.NaN)
 
 # Filtered signatur_g
 df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
@@ -399,7 +427,7 @@ df = df[df["standort"] != "DBSM/DA"]
 
 # Ausleihcode nicht e (= Moskauer Bestand)
 # Filtered ausleihcode
-df = df[~df['ausleihcode'].str.contains('e', na=False)]
+df = df[~df["ausleihcode"].str.contains("e", na=False)]
 
 # Filtered bbg
 df = df[df["bbg"] != "Hal"]
@@ -410,7 +438,12 @@ df = df[~df["bbg"].str.contains("Aaq", na=False)]
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("II 30,13", na=False)]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(
+    by="signatur_a",
+    ascending=True,
+    na_position="first",
+    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
+)
 df.to_excel("abzug/iii.xlsx", index=False)
 df.to_csv("abzug/iii.csv", index=False)
 
@@ -419,7 +452,11 @@ titel = get_titel("iv-titel.csv")
 
 exemplare = get_exemplare("iv-exemplare.dat")
 exemplare = exemplare[
-    ((exemplare.bibliothek == "009030115") | (exemplare.bibliothek == "009033645") | (pd.isna(exemplare.bibliothek)))
+    (
+        (exemplare.bibliothek == "009030115")
+        | (exemplare.bibliothek == "009033645")
+        | (pd.isna(exemplare.bibliothek))
+    )
     & exemplare.signatur_a.str.startswith("IV")
 ]
 
@@ -451,7 +488,7 @@ df = df[
     ]
 ]
 
-df = df.replace(r'', np.NaN)
+df = df.replace(r"", np.NaN)
 
 df.jahr = df.jahr.str.replace("X", "0")
 df.fillna({"jahr": "0"}, inplace=True)
@@ -480,7 +517,7 @@ df = df[df["standort"] != "DBSM/DA"]
 
 # Ausleihcode nicht e (= Moskauer Bestand)
 # Filtered ausleihcode
-df = df[~df['ausleihcode'].str.contains('e', na=False)]
+df = df[~df["ausleihcode"].str.contains("e", na=False)]
 
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("IV 205, 76", na=False)]
@@ -494,7 +531,12 @@ df = df[~df["signatur_a"].str.contains("IV 114, 15", na=False)]
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("IV 114, 13a", na=False)]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(
+    by="signatur_a",
+    ascending=True,
+    na_position="first",
+    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
+)
 
 df.to_csv("abzug/iv.csv", index=False)
 df.to_excel("abzug/iv.xlsx", index=False)
@@ -504,8 +546,8 @@ df.to_excel("abzug/iv.xlsx", index=False)
 titel = get_titel("schreibmeister-titel.csv")
 exemplare = get_exemplare("schreibmeister-exemplare.dat")
 
-titel.jahr = titel.jahr.str.replace("[xX]", "0", regex=True)
-titel.jahr = titel.jahr.str.replace("[\[\]]", "", regex=True)
+titel.jahr = titel.jahr.str.replace(r"[xX]", "0", regex=True)
+titel.jahr = titel.jahr.str.replace(r"[\[\]]", "", regex=True)
 
 titel.fillna({"jahr": "0"}, inplace=True)
 titel = titel.astype({"jahr": "int"})
@@ -535,13 +577,17 @@ df = df[
     ]
 ]
 
-df = df.replace(r'', np.NaN)
+df = df.replace(r"", np.NaN)
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
 
-df = df.sort_values(by='signatur_a', ascending=True, na_position='first', key=lambda x: np.argsort(index_natsorted(df["signatur_a"])))
+df = df.sort_values(
+    by="signatur_a",
+    ascending=True,
+    na_position="first",
+    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
+)
 
 df.to_csv("abzug/schreibmeister.csv", index=False)
 df.to_excel("abzug/schreibmeister.xlsx", index=False)
-
