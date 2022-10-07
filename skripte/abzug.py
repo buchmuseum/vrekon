@@ -137,7 +137,7 @@ def get_titel(datei: str) -> pd.DataFrame:
 
 def ausschlussliste() -> List:
     liste = list()
-    with open("ausschluss_liste.txt", "r") as f:
+    with open("blacklist.txt", "r") as f:
         while True:
             line = f.readline()
             if line.startswith('#'):
