@@ -99,8 +99,8 @@ stages:
     - python ./skripte/abzug.py
     deps:
     - path: blacklist.txt
-      md5: cb55b7d1ea6ad89c56104ba23bab52ee
-      size: 284
+      md5: 6baa9283fe4978d889c93984404279c5
+      size: 285
     - path: filter/böink-exemplare.dat
       md5: 47887205cf7115265cbc07df4bbce82c
       size: 45136
@@ -138,42 +138,42 @@ stages:
       md5: 7df29fac2d4fd930d776f7b7ab08e60b
       size: 40671
     - path: skripte/abzug.py
-      md5: adf307c2145b71f4fb67b526b9ca5413
-      size: 16025
+      md5: 44426dbe686df6679cc8baf75f6e4b80
+      size: 16533
     outs:
     - path: abzug/böink.csv
       md5: ee172b8a285eab341397467a1d9110f1
       size: 39887
     - path: abzug/böink.xlsx
-      md5: 2602462ca40fb953907a2b9344cf98ba
+      md5: 12d86a44e828466b10cd3bb571a35a8c
       size: 27352
     - path: abzug/böm.csv
       md5: aa03c6f77e31bf6ae9ca8fe9134138be
       size: 108543
     - path: abzug/böm.xlsx
-      md5: 805ace2542515798e6d871234bc287ae
+      md5: 01a22d5c517fd6e2a40ee5528a0bb8ba
       size: 66257
     - path: abzug/ii.csv
-      md5: 1a64bbf7d2ada433b103d4414efac727
-      size: 91454
+      md5: aadabaf53bc940e3027565ad4cb2d1ce
+      size: 91610
     - path: abzug/ii.xlsx
-      md5: f1c43fb91fe0b7764499dcb8fada5925
-      size: 57560
+      md5: 913652a794f3de301d4289b2bfa57ad2
+      size: 57680
     - path: abzug/iii.csv
       md5: e3c77ccb099ee6d119ed1a521c3b38c4
       size: 247162
     - path: abzug/iii.xlsx
-      md5: 02e2061fd79ffedb72ce74a1388e2e96
+      md5: b0843f696276cacf27e409c56feca1b6
       size: 139246
     - path: abzug/iv.csv
       md5: 55bb3875d13e6ad20f8b5e3085d8dc29
       size: 888579
     - path: abzug/iv.xlsx
-      md5: 6141ce2013a6036510fd8d6d73fd2e40
+      md5: c4011ab8bfec456f5b532a8464791c0f
       size: 463906
     - path: abzug/schreibmeister.csv
       md5: 34cd600ed2d1a9d1948f078cffb0f5a7
       size: 47479
     - path: abzug/schreibmeister.xlsx
-      md5: 189ca7a89e3ec9bcdee320034e2713a3
+      md5: e6451fd165ca1c2ed46f215ce513814e
       size: 32059

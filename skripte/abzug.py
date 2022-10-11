@@ -168,14 +168,14 @@ exemplare = exemplare[
         | (exemplare.bibliothek == "009033645")
     )
     & exemplare.signatur_a.str.startswith("Bö")
+    & (exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False)
+    & (exemplare.standort != "DBSM/DA")
 ]
+
 
 df = titel.merge(exemplare, on="idn", how="right")
 
 df = df.replace("", np.NaN)
-
-# Filtered signatur_a
-df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
@@ -185,9 +185,6 @@ df = df[df["f4241"].isna()]
 
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
-
-# Filtered standort
-df = df[df["standort"] != "DBSM/DA"]
 
 # Filtered bbg
 df = df[df["bbg"] != "Hal"]
@@ -238,7 +235,12 @@ df.to_csv("abzug/böm.csv", index=False, columns=write_columns)
 # Bö Ink
 titel = get_titel("böink-titel.csv")
 exemplare = get_exemplare("böink-exemplare.dat")
-exemplare = exemplare[exemplare.signatur_a.str.startswith("Bö")]
+exemplare = exemplare[
+    exemplare.signatur_a.str.startswith("Bö")
+    & (exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False)
+    & (exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False)
+    & (exemplare["standort"] != "DBSM/DA")
+]
 
 df = titel.merge(exemplare, on="idn", how="right")
 
@@ -253,17 +255,11 @@ df = df[~df.idn.isin(blacklist())]
 # Filtered f4243
 df = df[df["f4243"].isna()]
 
-# Filtered signatur_g
-df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
-
-# Filtered signatur_a
-df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
-
 # Filtered bbg
 df = df[~df["bbg"].str.contains("Aaq", na=False)]
 
 # Filtered standort
-df = df[df["standort"] != "DBSM/DA"]
+# df = df[df["standort"] != "DBSM/DA"]
 
 df = df.sort_values(
     by="signatur_a",
@@ -309,8 +305,18 @@ exemplare = exemplare[
         (exemplare.bibliothek == "009030115")
         | (exemplare.bibliothek == "009033645")
         | (pd.isna(exemplare.bibliothek))
-    )
+    )  # kein exemplar mit BIC DNB oder DBSM oder keiner BIC
     & exemplare.signatur_a.str.startswith("II ")
+    & (
+        exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False
+    )  # kein angebundenes werk
+    & (
+        exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False
+    )  # kein angebundenes werk
+    & (exemplare["standort"] != "DBSM/DA")  # Standort nicht Dauerausstellung
+    & (
+        exemplare["ausleihcode"].str.contains("e", na=False) == False
+    )  # Ausleihcode nicht e (= Moskauer Bestand)
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
@@ -325,19 +331,6 @@ df = df[df["f4105_9"].isna()]
 
 # Filtered f4241
 df = df[df["f4241"].isna()]
-
-# Filtered signatur_g
-df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
-
-# Filtered signatur_a
-df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
-
-# Filtered standort
-df = df[df["standort"] != "DBSM/DA"]
-
-# Ausleihcode nicht e (= Moskauer Bestand)
-# Filtered ausleihcode
-df = df[~df["ausleihcode"].str.contains("e", na=False)]
 
 df = df.sort_values(
     by="signatur_a",
@@ -386,17 +379,21 @@ exemplare = exemplare[
         | (pd.isna(exemplare.bibliothek))
     )
     & exemplare.signatur_a.str.startswith("III")
+    & (
+        exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False
+    )  # kein angebundenes werk
+    & (
+        exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False
+    )  # kein angebundenes werk
+    & (exemplare["standort"] != "DBSM/DA")  # Standort nicht Dauerausstellung
+    & (
+        exemplare["ausleihcode"].str.contains("e", na=False) == False
+    )  # Ausleihcode nicht e (= Moskauer Bestand)
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
 
 df = df.replace("", np.NaN)
-
-# Filtered signatur_g
-df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
-
-# Filtered signatur_a
-df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
@@ -406,13 +403,6 @@ df = df[df["f4241"].isna()]
 
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
-
-# Filtered standort
-df = df[df["standort"] != "DBSM/DA"]
-
-# Ausleihcode nicht e (= Moskauer Bestand)
-# Filtered ausleihcode
-df = df[~df["ausleihcode"].str.contains("e", na=False)]
 
 # Filtered bbg
 df = df[df["bbg"] != "Hal"]
@@ -470,6 +460,16 @@ exemplare = exemplare[
         | (pd.isna(exemplare.bibliothek))
     )
     & exemplare.signatur_a.str.startswith("IV")
+    & (
+        exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False
+    )  # kein angebundenes werk
+    & (
+        exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False
+    )  # kein angebundenes werk
+    & (exemplare["standort"] != "DBSM/DA")  # Standort nicht Dauerausstellung
+    & (
+        exemplare["ausleihcode"].str.contains("e", na=False) == False
+    )  # Ausleihcode nicht e (= Moskauer Bestand)
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
@@ -479,12 +479,6 @@ df = df.replace("", np.NaN)
 df.jahr = df.jahr.str.replace("X", "0")
 df.fillna({"jahr": "0"}, inplace=True)
 df = df.astype({"jahr": "int"})
-
-# Filtered signatur_g
-df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
-
-# Filtered signatur_a
-df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
@@ -497,13 +491,6 @@ df = df[df["f4105_9"].isna()]
 
 # Filtered jahr
 df = df[df["jahr"] <= 1785]
-
-# Filtered standort
-df = df[df["standort"] != "DBSM/DA"]
-
-# Ausleihcode nicht e (= Moskauer Bestand)
-# Filtered ausleihcode
-df = df[~df["ausleihcode"].str.contains("e", na=False)]
 
 # Filtered signatur_g
 df = df[~df["signatur_a"].str.contains("IV 205, 76", na=False)]
