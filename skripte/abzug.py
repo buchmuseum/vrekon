@@ -1,3 +1,4 @@
+from os import write
 import pandas as pd
 from collections import defaultdict
 import re
@@ -31,7 +32,7 @@ def feldauswertung(kategorie: str, inhalt: str) -> List[Tuple[str, str]]:
     Weil auch Unterfelder wiederholbar sind, kommt eine Liste von Tupeln zurück.
     """
     ergebnisse = list()
-    matchlist = [
+    matchlist = (
         ("209A", "f", "standort"),
         ("209A", "g", "signatur_g"),
         ("209A", "d", "ausleihcode"),
@@ -42,16 +43,19 @@ def feldauswertung(kategorie: str, inhalt: str) -> List[Tuple[str, str]]:
         ("237A", "k", "f4801_k"),
         ("247C", "9", "bibliothek"),
         ("220C", "w", "wert"),
-    ]
+    )
     # [('standort', 'DBSM/M/Klemm'), ('signatur_g', 'II 1,2a - Fragm.')]
     for match in matchlist:
-        if kategorie == match[0]:
-            if len(unterfeldsuche := re.findall(r"\${match[1]}([^\$]+)", inhalt)) > 0:
-                if (kategorie == "209A") and (re.findall(r"\$a.+\$x0[1-8]", inhalt)):
-                    pass
-                else:
-                    unterfeld = (match[2], "; ".join(unterfeldsuche))
-                    ergebnisse.append(unterfeld)
+        if (kategorie == "209A") and (re.match(r"\$a.+\$x0[1-8]", inhalt)):
+            continue
+
+        if kategorie != match[0]:
+            continue
+
+        unterfeldsuche = re.findall(f"\${match[1]}([^\$]+)", inhalt)
+        if unterfeldsuche != None:
+            unterfeld = (match[2], "; ".join(unterfeldsuche))
+            ergebnisse.append(unterfeld)
 
     return ergebnisse
 
@@ -63,34 +67,40 @@ def get_exemplare(datei: str) -> pd.DataFrame:
     with open(f"{filter_path}/{datei}", "r") as f:
         df = pd.DataFrame(dtype="string")
         for l in f:
-            # Zeile wird getrennt in Kategorie und Inhalt, line[0] ist Kategorie, line[1] ist Inhalt
-            line = l.split(" ", 1)
+
             # wenn Leerzeile ist Datensatz zu Ende und alle Exemplare dieses Titels werden zunächst in ein df umgewandelt und dann an das df mit allen Exemplaren angehängt
             if l == "\n":
                 df = pd.concat([df, make_nested_frame(exemplare)])
+                continue
+
+            # Zeile wird getrennt in Kategorie und Inhalt, line[0] ist Kategorie, line[1] ist Inhalt
+            line = l.split(" ", 1)
 
             # wenn beginn neuer titelsatz wird 3-fach verschachteltes dict exemplare neu angelegt und idn geschrieben
-            elif line[0] == "003@":
+            if line[0] == "003@":
                 exemplare = defaultdict(
                     lambda: defaultdict(lambda: defaultdict(lambda: defaultdict(str)))
                 )
                 idn = line[1][2:].strip()
+                continue
+
             # wenn neue Einrichtung wird das geschrieben
-            elif line[0] == "101@":
+            if line[0] == "101@":
                 einrichtung = line[1][2:].strip()
+                continue
 
             # in allen anderen fällen werden die zeilen ausgelesen
-            else:
-                # kategorie und okkurrenz werden getrennt
-                feld = line[0].split("/")
-                # die unterfelder werden in klartext übersetzt
-                feldergebnis = feldauswertung(feld[0], line[1].strip())
-                for ergebnis in feldergebnis:
-                    # wenn feld und unterfeld gleich sind, werden die ergebnisse durch Semikolon getrennt aneinander gehängt; in der funktion feldauswertung wird ausgeschlossen dass 209A/*.a zurückgegeben wird, wenn $x01-08 ist (damit werden altsignaturen aus 7101 ausgeschlossen)
-                    exemplare[idn][einrichtung][feld[1]][ergebnis[0]] = "; ".join(
-                        [ergebnis[1], exemplare[idn][einrichtung][feld[1]][ergebnis[0]]]
-                    )
+            # kategorie und okkurrenz werden getrennt
+            feld = line[0].split("/")
+            # die unterfelder werden in klartext übersetzt
+            feldergebnis = feldauswertung(feld[0], line[1].strip())
+            for ergebnis in feldergebnis:
+                # wenn feld und unterfeld gleich sind, werden die ergebnisse durch Semikolon getrennt aneinander gehängt; in der funktion feldauswertung wird ausgeschlossen dass 209A/*.a zurückgegeben wird, wenn $x01-08 ist (damit werden altsignaturen aus 7101 ausgeschlossen)
+                exemplare[idn][einrichtung][feld[1]][ergebnis[0]] = "; ".join(
+                    [ergebnis[1], exemplare[idn][einrichtung][feld[1]][ergebnis[0]]]
+                )
 
+        # wenn alle Zeilen der Exemplardaten ausgewertet wurden, wird das df mit sprechenden indizes versehen und zurückgegeben.
         df.index.set_names(["idn", "einrichtung", "exemplar"], inplace=True)
         return (
             df.reset_index()
@@ -138,14 +148,12 @@ def get_titel(datei: str) -> pd.DataFrame:
 def blacklist() -> Tuple:
     liste = list()
     with open("blacklist.txt", "r") as f:
-        while True:
-            line = f.readline()
+        for line in f:
             if line.startswith("#"):
-                pass
-            elif line:
-                liste.append(line.split("#")[0].strip())
-            elif not line:
-                break
+                continue
+
+            liste.append(line.split("#")[0].strip())
+
     return tuple(liste)
 
 
@@ -163,33 +171,8 @@ exemplare = exemplare[
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
-df = df[
-    [
-        "idn",
-        "akz",
-        "bbg",
-        "standort",
-        "signatur_g",
-        "signatur_a",
-        "titel",
-        "stuecktitel",
-        "umfang",
-        "f4243",
-        "f4256",
-        "f4241",
-        "f4105_9",
-        "f4105_g",
-        "ausleihcode",
-        "sig_komm",
-        "f4801_a",
-        "bibliothek",
-        "einrichtung",
-        "exemplar",
-        "wert",
-    ]
-]
 
-df = df.replace(r"", np.NaN)
+df = df.replace("", np.NaN)
 
 # Filtered signatur_a
 df = df[~df["signatur_a"].str.contains("angeb", na=False, case=False)]
@@ -222,8 +205,34 @@ df = df.sort_values(
     key=lambda X: np.argsort(index_natsorted(df["signatur_a"])),
 )
 
-df.to_excel("abzug/böm.xlsx", index=False)
-df.to_csv("abzug/böm.csv", index=False)
+spalten = (
+    "idn",
+    "akz",
+    "bbg",
+    "standort",
+    "signatur_g",
+    "signatur_a",
+    "titel",
+    "stuecktitel",
+    "umfang",
+    "f4243",
+    "f4256",
+    "f4241",
+    "f4105_9",
+    "f4105_g",
+    "ausleihcode",
+    "sig_komm",
+    "f4801_a",
+    "bibliothek",
+    "einrichtung",
+    "exemplar",
+    "wert",
+)
+
+write_columns = [spalte for spalte in spalten if spalte in df.columns]
+
+df.to_excel("abzug/böm.xlsx", index=False, columns=write_columns)
+df.to_csv("abzug/böm.csv", index=False, columns=write_columns)
 
 
 # Bö Ink
@@ -233,32 +242,7 @@ exemplare = exemplare[exemplare.signatur_a.str.startswith("Bö")]
 
 df = titel.merge(exemplare, on="idn", how="right")
 
-df = df[
-    [
-        "idn",
-        "akz",
-        "bbg",
-        "standort",
-        "signatur_g",
-        "signatur_a",
-        "titel",
-        "stuecktitel",
-        "umfang",
-        "f4243",
-        "f4256",
-        "f4241",
-        "f4105_9",
-        "f4105_g",
-        "ausleihcode",
-        "f4801_a",
-        "f4801_k",
-        "einrichtung",
-        "exemplar",
-        "wert",
-    ]
-]
-
-df = df.replace(r"", np.NaN)
+df = df.replace("", np.NaN)
 
 # Filtered f4105_9
 df = df[df["f4105_9"].isna()]
@@ -288,8 +272,33 @@ df = df.sort_values(
     key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
 )
 
-df.to_excel("abzug/böink.xlsx", index=False)
-df.to_csv("abzug/böink.csv", index=False)
+spalten = (
+    "idn",
+    "akz",
+    "bbg",
+    "standort",
+    "signatur_g",
+    "signatur_a",
+    "titel",
+    "stuecktitel",
+    "umfang",
+    "f4243",
+    "f4256",
+    "f4241",
+    "f4105_9",
+    "f4105_g",
+    "ausleihcode",
+    "f4801_a",
+    "f4801_k",
+    "einrichtung",
+    "exemplar",
+    "wert",
+)
+
+write_columns = [spalte for spalte in spalten if spalte in df.columns]
+
+df.to_excel("abzug/böink.xlsx", index=False, columns=write_columns)
+df.to_csv("abzug/böink.csv", index=False, columns=write_columns)
 
 # II Inkunabeln
 titel = get_titel("ii-titel.csv")
@@ -305,33 +314,8 @@ exemplare = exemplare[
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
-df = df[
-    [
-        "idn",
-        "akz",
-        "bbg",
-        "standort",
-        "signatur_g",
-        "signatur_a",
-        "titel",
-        "stuecktitel",
-        "umfang",
-        "f4243",
-        "f4256",
-        "f4241",
-        "f4105_9",
-        "f4105_g",
-        "ausleihcode",
-        "sig_komm",
-        "f4801_a",
-        "f4801_k",
-        "einrichtung",
-        "exemplar",
-        "wert",
-    ]
-]
 
-df = df.replace(r"", np.NaN)
+df = df.replace("", np.NaN)
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
@@ -361,9 +345,34 @@ df = df.sort_values(
     na_position="first",
     key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
 )
-df.to_excel("abzug/ii.xlsx", index=False)
+spalten = (
+    "idn",
+    "akz",
+    "bbg",
+    "standort",
+    "signatur_g",
+    "signatur_a",
+    "titel",
+    "stuecktitel",
+    "umfang",
+    "f4243",
+    "f4256",
+    "f4241",
+    "f4105_9",
+    "f4105_g",
+    "ausleihcode",
+    "sig_komm",
+    "f4801_a",
+    "f4801_k",
+    "einrichtung",
+    "exemplar",
+    "wert",
+)
 
-df.to_csv("abzug/ii.csv", index=False)
+write_columns = [spalte for spalte in spalten if spalte in df.columns]
+
+df.to_excel("abzug/ii.xlsx", index=False, columns=write_columns)
+df.to_csv("abzug/ii.csv", index=False, columns=write_columns)
 
 
 # III (Drucke 1501-1560)
@@ -380,32 +389,8 @@ exemplare = exemplare[
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
-df = df[
-    [
-        "idn",
-        "akz",
-        "bbg",
-        "standort",
-        "signatur_g",
-        "signatur_a",
-        "titel",
-        "stuecktitel",
-        "umfang",
-        "f4243",
-        "f4256",
-        "f4241",
-        "f4105_9",
-        "f4105_g",
-        "ausleihcode",
-        "sig_komm",
-        "f4801_a",
-        "f4801_k",
-        "einrichtung",
-        "exemplar",
-    ]
-]
 
-df = df.replace(r"", np.NaN)
+df = df.replace("", np.NaN)
 
 # Filtered signatur_g
 df = df[~df["signatur_g"].str.contains("angeb", na=False, case=False)]
@@ -444,8 +429,35 @@ df = df.sort_values(
     na_position="first",
     key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
 )
-df.to_excel("abzug/iii.xlsx", index=False)
-df.to_csv("abzug/iii.csv", index=False)
+
+spalten = (
+    "idn",
+    "akz",
+    "bbg",
+    "standort",
+    "signatur_g",
+    "signatur_a",
+    "titel",
+    "stuecktitel",
+    "umfang",
+    "f4243",
+    "f4256",
+    "f4241",
+    "f4105_9",
+    "f4105_g",
+    "ausleihcode",
+    "sig_komm",
+    "f4801_a",
+    "f4801_k",
+    "einrichtung",
+    "exemplar",
+    "wert",
+)
+
+write_columns = [spalte for spalte in spalten if spalte in df.columns]
+
+df.to_excel("abzug/iii.xlsx", index=False, columns=write_columns)
+df.to_csv("abzug/iii.csv", index=False, columns=write_columns)
 
 # IV (Drucke 1561-1800)
 titel = get_titel("iv-titel.csv")
@@ -461,34 +473,8 @@ exemplare = exemplare[
 ]
 
 df = titel.merge(exemplare, on="idn", how="right")
-df = df[
-    [
-        "idn",
-        "akz",
-        "bbg",
-        "standort",
-        "signatur_g",
-        "signatur_a",
-        "jahr",
-        "titel",
-        "stuecktitel",
-        "umfang",
-        "f4243",
-        "f4256",
-        "f4241",
-        "f4105_9",
-        "f4105_g",
-        "ausleihcode",
-        "sig_komm",
-        "f4801_a",
-        "f4801_k",
-        "bibliothek",
-        "einrichtung",
-        "exemplar",
-    ]
-]
 
-df = df.replace(r"", np.NaN)
+df = df.replace("", np.NaN)
 
 df.jahr = df.jahr.str.replace("X", "0")
 df.fillna({"jahr": "0"}, inplace=True)
@@ -538,46 +524,51 @@ df = df.sort_values(
     key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
 )
 
-df.to_csv("abzug/iv.csv", index=False)
-df.to_excel("abzug/iv.xlsx", index=False)
+spalten = (
+    "idn",
+    "akz",
+    "bbg",
+    "standort",
+    "signatur_g",
+    "signatur_a",
+    "jahr",
+    "titel",
+    "stuecktitel",
+    "umfang",
+    "f4243",
+    "f4256",
+    "f4241",
+    "f4105_9",
+    "f4105_g",
+    "ausleihcode",
+    "sig_komm",
+    "f4801_a",
+    "f4801_k",
+    "bibliothek",
+    "einrichtung",
+    "exemplar",
+    "wert",
+)
+
+write_columns = [spalte for spalte in spalten if spalte in df.columns]
+
+df.to_csv("abzug/iv.csv", index=False, columns=write_columns)
+df.to_excel("abzug/iv.xlsx", index=False, columns=write_columns)
 
 # Schreibmeisterbücher
 
 titel = get_titel("schreibmeister-titel.csv")
 exemplare = get_exemplare("schreibmeister-exemplare.dat")
 
-titel.jahr = titel.jahr.str.replace(r"[xX]", "0", regex=True)
-titel.jahr = titel.jahr.str.replace(r"[\[\]]", "", regex=True)
+titel.jahr = titel.jahr.str.replace("[xX]", "0", regex=True)
+titel.jahr = titel.jahr.str.replace("[\[\]]", "", regex=True)
 
 titel.fillna({"jahr": "0"}, inplace=True)
 titel = titel.astype({"jahr": "int"})
 
 df = titel.merge(exemplare, on="idn", how="right")
-df = df[
-    [
-        "idn",
-        "akz",
-        "bbg",
-        "standort",
-        "signatur_g",
-        "signatur_a",
-        "jahr",
-        "titel",
-        "stuecktitel",
-        "umfang",
-        "f4243",
-        "f4256",
-        "f4241",
-        "f4105_9",
-        "f4105_g",
-        "ausleihcode",
-        "f4801_a",
-        "einrichtung",
-        "exemplar",
-    ]
-]
 
-df = df.replace(r"", np.NaN)
+df = df.replace("", np.NaN)
 
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
@@ -589,5 +580,32 @@ df = df.sort_values(
     key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
 )
 
-df.to_csv("abzug/schreibmeister.csv", index=False)
-df.to_excel("abzug/schreibmeister.xlsx", index=False)
+# liste aller möglichen spalten, die geschrieben werden könnten
+spalten = (
+    "idn",
+    "akz",
+    "bbg",
+    "standort",
+    "signatur_g",
+    "signatur_a",
+    "jahr",
+    "titel",
+    "stuecktitel",
+    "umfang",
+    "f4243",
+    "f4256",
+    "f4241",
+    "f4105_9",
+    "f4105_g",
+    "ausleihcode",
+    "f4801_a",
+    "einrichtung",
+    "exemplar",
+    "wert",
+)
+
+# es wird gecheckt, ob die möglichen spalten im aktuellen df enthalten sind, nur dann werden sie auch geschrieben
+write_columns = [spalte for spalte in spalten if spalte in df.columns]
+
+df.to_csv("abzug/schreibmeister.csv", index=False, columns=write_columns)
+df.to_excel("abzug/schreibmeister.xlsx", index=False, columns=write_columns)
