@@ -103,8 +103,8 @@ stages:
     - python ./skripte/abzug.py
     deps:
     - path: blacklist.txt
-      md5: 6baa9283fe4978d889c93984404279c5
-      size: 285
+      md5: 07fd2c70c1b7a6a2021e75a23410a2fe
+      size: 1755
     - path: filter/böink-exemplare.dat
       md5: 5349bfe5e6ca5f14cfea73c544d28333
       size: 45926
@@ -142,42 +142,42 @@ stages:
       md5: 6862a6c491f090c62d6e36df2cb1b57b
       size: 40875
     - path: skripte/abzug.py
-      md5: b51f164ef67823c2f5cb1e3030718460
-      size: 17552
+      md5: f66ed16801d9c3443a4440ed34c087c2
+      size: 17204
     outs:
     - path: abzug/böink.csv
       md5: 20acf3c8ef286352b9bf73767eabb5d4
       size: 39536
     - path: abzug/böink.xlsx
-      md5: 76479fc9b946b36ccd1161e5f2dda419
-      size: 27188
+      md5: 9ee27ec77de908e2d827ee6618ca4dd9
+      size: 27187
     - path: abzug/böm.csv
       md5: d002343d7c427ad81ea955203608632f
       size: 108884
     - path: abzug/böm.xlsx
-      md5: 0c6873da46b178cda89993ba93b2f92f
+      md5: 4d8e12c7f4933d3a9a7ebd83278f2157
       size: 66525
     - path: abzug/ii.csv
       md5: ce7bddc7bfbf1fea7b9ebf3e78c42f15
       size: 93237
     - path: abzug/ii.xlsx
-      md5: ae332cdca52be247b1d54a53f24727f5
+      md5: 428198aca8c9c5b3ecaad9e130250aaf
       size: 58274
     - path: abzug/iii.csv
       md5: da50d1e7deaef7bb82f50a26e5dd1c9f
       size: 245061
     - path: abzug/iii.xlsx
-      md5: 05c44582cf20960a3efc2cfded2828cf
+      md5: 890a3e4ccb9301718dfc719a24952b1c
       size: 138118
     - path: abzug/iv.csv
-      md5: 0b466943a3a37e5a806240b433966de2
-      size: 842840
+      md5: f3ee369049e840c9744723bcea3142f4
+      size: 844395
     - path: abzug/iv.xlsx
-      md5: df2696eebdb758c3fe7715f1237c02c0
-      size: 440952
+      md5: 13d08a49b7d738e5d7eed35b1d455d79
+      size: 441573
     - path: abzug/schreibmeister.csv
       md5: c706a4ed1eecd8ada78488e366c0d5d0
       size: 47897
     - path: abzug/schreibmeister.xlsx
-      md5: 2b5e057d1687b208305189d12033ba81
+      md5: 22fc028d2afcccf6548976f0899a3a0d
       size: 32237
