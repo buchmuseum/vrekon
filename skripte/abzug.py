@@ -510,18 +510,6 @@ df = df[df["f4105_9"].isna()]
 # Filtered jahr
 df = df[df["jahr"] <= 1785]
 
-# Filtered signatur_g
-df = df[~df["signatur_a"].str.contains("IV 205, 76", na=False)]
-
-# Filtered signatur_a
-df = df[~df["signatur_a"].str.contains("IV 205,76", na=False)]
-
-# Filtered signatur_g
-df = df[~df["signatur_a"].str.contains("IV 114, 15", na=False)]
-
-# Filtered signatur_g
-df = df[~df["signatur_a"].str.contains("IV 114, 13a", na=False)]
-
 df = df.sort_values(
     by="signatur_a",
     ascending=True,
