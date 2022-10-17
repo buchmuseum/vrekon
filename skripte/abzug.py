@@ -1,12 +1,19 @@
-from os import write
+import os
 import pandas as pd
 from collections import defaultdict
 import re
 import numpy as np
 from natsort import index_natsorted
 from typing import List, Tuple
+from datetime import datetime
 
 filter_path = "filter"
+
+# alle abzüge werden zusätzlich in einen datumspfad unterhalb des abzugs-pfade geschrieben, damit man ggf. eine historie der geschriebenen dateien rekonstruieren kann
+heute = datetime.now().strftime("%y-%m-%d")
+
+if not os.path.isdir(f"./abzug/{heute}"):
+    os.mkdir(f"./abzug/{heute}")
 
 
 def make_nested_frame(dict) -> pd.DataFrame:
@@ -230,6 +237,8 @@ write_columns = [spalte for spalte in spalten if spalte in df.columns]
 
 df.to_excel("abzug/böm.xlsx", index=False, columns=write_columns)
 df.to_csv("abzug/böm.csv", index=False, columns=write_columns)
+df.to_excel(f"abzug/{heute}/{heute}-böm.xlsx", index=False, columns=write_columns)
+df.to_csv(f"abzug/{heute}/{heute}-böm.csv", index=False, columns=write_columns)
 
 
 # Bö Ink
@@ -295,6 +304,9 @@ write_columns = [spalte for spalte in spalten if spalte in df.columns]
 
 df.to_excel("abzug/böink.xlsx", index=False, columns=write_columns)
 df.to_csv("abzug/böink.csv", index=False, columns=write_columns)
+
+df.to_excel(f"abzug/{heute}/{heute}-böink.xlsx", index=False, columns=write_columns)
+df.to_csv(f"abzug/{heute}/{heute}-böink.csv", index=False, columns=write_columns)
 
 # II Inkunabeln
 titel = get_titel("ii-titel.csv")
@@ -366,6 +378,9 @@ write_columns = [spalte for spalte in spalten if spalte in df.columns]
 
 df.to_excel("abzug/ii.xlsx", index=False, columns=write_columns)
 df.to_csv("abzug/ii.csv", index=False, columns=write_columns)
+
+df.to_excel(f"abzug/{heute}/{heute}-ii.xlsx", index=False, columns=write_columns)
+df.to_csv(f"abzug/{heute}/{heute}-ii.csv", index=False, columns=write_columns)
 
 
 # III (Drucke 1501-1560)
@@ -448,6 +463,9 @@ write_columns = [spalte for spalte in spalten if spalte in df.columns]
 
 df.to_excel("abzug/iii.xlsx", index=False, columns=write_columns)
 df.to_csv("abzug/iii.csv", index=False, columns=write_columns)
+
+df.to_excel(f"abzug/{heute}/{heute}-iii.xlsx", index=False, columns=write_columns)
+df.to_csv(f"abzug/{heute}/{heute}-iii.csv", index=False, columns=write_columns)
 
 # IV (Drucke 1561-1800)
 titel = get_titel("iv-titel.csv")
@@ -542,6 +560,9 @@ write_columns = [spalte for spalte in spalten if spalte in df.columns]
 df.to_csv("abzug/iv.csv", index=False, columns=write_columns)
 df.to_excel("abzug/iv.xlsx", index=False, columns=write_columns)
 
+df.to_excel(f"abzug/{heute}/{heute}-iv.xlsx", index=False, columns=write_columns)
+df.to_csv(f"abzug/{heute}/{heute}-iv.csv", index=False, columns=write_columns)
+
 # Schreibmeisterbücher
 
 titel = get_titel("schreibmeister-titel.csv")
@@ -596,3 +617,10 @@ write_columns = [spalte for spalte in spalten if spalte in df.columns]
 
 df.to_csv("abzug/schreibmeister.csv", index=False, columns=write_columns)
 df.to_excel("abzug/schreibmeister.xlsx", index=False, columns=write_columns)
+
+df.to_excel(
+    f"abzug/{heute}/{heute}-schreibmeister.xlsx", index=False, columns=write_columns
+)
+df.to_csv(
+    f"abzug/{heute}/{heute}-schreibmeister.csv", index=False, columns=write_columns
+)

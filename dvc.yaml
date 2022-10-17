@@ -7,7 +7,20 @@ vars:
 stages:
   # der Gesamtabzug der DNB-Daten wird auf DBSM-Daten reduziert
   prepare:
-    cmd: pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM' || 247C/*.9 == '009033645'" ${raw_path}/DNBtitelundexemplare.dat.gz -o ${dump_path}/dbsm-titel-exemplare.dat.gz
+    cmd:
+      - |
+        if [ ! -d "dump/" ]; then
+          mkdir dump
+        fi
+      - |
+        if [ ! -d "filter/" ]; then
+          mkdir filter
+        fi
+      - |
+        if [ ! -d "abzug/" ]; then
+          mkdir abzug
+        fi
+      - pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM' || 247C/*.9 == '009033645'" ${raw_path}/DNBtitelundexemplare.dat.gz -o ${dump_path}/dbsm-titel-exemplare.dat.gz
     
     deps:
       - ${raw_path}/DNBtitelundexemplare.dat.gz
