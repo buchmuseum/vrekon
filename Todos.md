@@ -6,6 +6,8 @@
 
 [x] Ausgabedaten aus dem Git-Abzug entfernen und in ein DVC-Daten-Storage überführen.
 
-[] Signaturfilter aus IV in ausschlussliste überführen
+[x] Signaturfilter aus IV in ausschlussliste überführen
 
 [] case sensititvy bei IDN match x X
+
+[] Filter II umbauen, so dass evtl fehlende Leerzeichen kein problem sind
