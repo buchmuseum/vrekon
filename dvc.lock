@@ -149,35 +149,35 @@ stages:
       md5: 20acf3c8ef286352b9bf73767eabb5d4
       size: 39536
     - path: abzug/böink.xlsx
-      md5: 9ee27ec77de908e2d827ee6618ca4dd9
-      size: 27187
+      md5: 20421208b1a516f60782b9b5e060bd2d
+      size: 27186
     - path: abzug/böm.csv
       md5: d002343d7c427ad81ea955203608632f
       size: 108884
     - path: abzug/böm.xlsx
-      md5: 4d8e12c7f4933d3a9a7ebd83278f2157
-      size: 66525
+      md5: e7b2843e10ae0e33e28012fe4587efb2
+      size: 66524
     - path: abzug/ii.csv
       md5: ce7bddc7bfbf1fea7b9ebf3e78c42f15
       size: 93237
     - path: abzug/ii.xlsx
-      md5: 428198aca8c9c5b3ecaad9e130250aaf
+      md5: 3ff8275b175c4cfcddc2b4fb1ef0e051
       size: 58274
     - path: abzug/iii.csv
       md5: da50d1e7deaef7bb82f50a26e5dd1c9f
       size: 245061
     - path: abzug/iii.xlsx
-      md5: 890a3e4ccb9301718dfc719a24952b1c
+      md5: ca1d906f55ef42a44a0523d4b057e5c5
       size: 138118
     - path: abzug/iv.csv
       md5: f3ee369049e840c9744723bcea3142f4
       size: 844395
     - path: abzug/iv.xlsx
-      md5: 13d08a49b7d738e5d7eed35b1d455d79
+      md5: bc36364f755cde3cee8390b8d574aacb
       size: 441573
     - path: abzug/schreibmeister.csv
       md5: c706a4ed1eecd8ada78488e366c0d5d0
       size: 47897
     - path: abzug/schreibmeister.xlsx
-      md5: 22fc028d2afcccf6548976f0899a3a0d
+      md5: e224915edce8a9e8df7c6c29e3a9dd90
       size: 32237
