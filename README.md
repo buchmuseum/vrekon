@@ -38,4 +38,4 @@ Die Notebooks in `notebooks` werden mit `dvc repro` nicht ausgeführt. Sie diene
 
 ## einzelne IDNs vom Projekt ausschließen
 
-Im Stammverzeichnis des Projektes liegt die Datei `ausschluss_liste.txt` Alle dort enthaltenen IDNs werden automatisch aus dem Projekt entfernt.
+Im Stammverzeichnis des Projektes liegt die Datei `blacklist.txt` Alle dort enthaltenen IDNs werden automatisch aus dem Projekt entfernt.
