@@ -32,3 +32,7 @@
 1128100681 # Theatrum Europaeum IV 114, 13a
 012729078 # Theatrum Europaeum IV 114, 13a
 016698827 # Theatrum Europaeum IV 114, 13a
+1002995671 # Oeuvres complètes de [François Marie Arouet] Voltaire
+1002993903 # Oeuvres complètes de [François Marie Arouet] Voltaire
+1002993873 # Oeuvres complètes de [François Marie Arouet] Voltaire
+012645699 # 
