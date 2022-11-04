@@ -8,6 +8,8 @@
 
 [x] Signaturfilter aus IV in ausschlussliste überführen
 
-[] case sensititvy bei IDN match x X
+[ ] case sensititvy bei IDN match x X
 
-[] Filter II umbauen, so dass evtl fehlende Leerzeichen kein problem sind
+[ ] Filter II umbauen, so dass evtl fehlende Leerzeichen kein problem sind
+
+[ ] Problemfall 1066941688, Titelsatz mit zwei Exemplaren: eins angebunden, eins selbständig. wie ausfiltern?
