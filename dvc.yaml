@@ -44,10 +44,9 @@ stages:
       
       - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/böink-exemplare.dat
 
-      # Damit hier nicht auf die III kommt, wird nach II+Leerzeichen gesucht.
-      - pica filter "209A/*.a =^ 'II '" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g" -o ${filter_path}/ii-titel.csv
+      - pica filter "209A/*.a =~ '^II[\\\s\\\d]'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g" -o ${filter_path}/ii-titel.csv
       
-      - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'II '" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/ii-exemplare.dat
+      - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =~ '^II[\\\s\\\d]'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/ii-exemplare.dat
 
       - pica filter "209A/*.a =^ 'III'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g" -o ${filter_path}/iii-titel.csv
       

@@ -10,6 +10,6 @@
 
 [ ] case sensititvy bei IDN match x X
 
-[ ] Filter II umbauen, so dass evtl fehlende Leerzeichen kein problem sind
+[x] Filter II umbauen, so dass evtl fehlende Leerzeichen kein problem sind; LÖSUNG: Es gibt keine fehlenden Leerzeichen
 
 [ ] Problemfall 1066941688, Titelsatz mit zwei Exemplaren: eins angebunden, eins selbständig. wie ausfiltern?
