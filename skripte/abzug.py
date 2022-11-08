@@ -312,39 +312,4 @@ df = df.sort_values(
     key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
 )
 
-# liste aller möglichen spalten, die geschrieben werden könnten
-spalten = (
-    "idn",
-    "akz",
-    "bbg",
-    "standort",
-    "signatur_g",
-    "signatur_a",
-    "jahr",
-    "titel",
-    "stuecktitel",
-    "umfang",
-    "f4243",
-    "f4256",
-    "f4241",
-    "f4105_9",
-    "f4105_g",
-    "ausleihcode",
-    "f4801_a",
-    "einrichtung",
-    "exemplar",
-    "wert",
-)
-
-# es wird gecheckt, ob die möglichen spalten im aktuellen df enthalten sind, nur dann werden sie auch geschrieben
-write_columns = [spalte for spalte in spalten if spalte in df.columns]
-
-df.to_csv("abzug/schreibmeister.csv", index=False, columns=write_columns)
-df.to_excel("abzug/schreibmeister.xlsx", index=False, columns=write_columns)
-
-df.to_excel(
-    f"abzug/{heute}/{heute}-schreibmeister.xlsx", index=False, columns=write_columns
-)
-df.to_csv(
-    f"abzug/{heute}/{heute}-schreibmeister.csv", index=False, columns=write_columns
-)
+schreiben(df, "schreibmeister")
