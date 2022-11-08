@@ -164,394 +164,130 @@ def blacklist() -> Tuple:
     return tuple(liste)
 
 
-# Bö M
+def einlesen(bestand: str) -> pd.DataFrame:
+    bestand = bestand.lower()
+    signatur = {
+        "böm": "Bö",
+        "böink": "Bö",
+        "ii": "II ",
+        "iii": "III",
+        "iv": "IV",
+    }
 
-titel = get_titel("böm-titel.csv")
-exemplare = get_exemplare("böm-exemplare.dat")
-exemplare = exemplare[
-    (
-        (exemplare.bibliothek == "009030115")
-        | (pd.isna(exemplare.bibliothek))
-        | (exemplare.bibliothek == "009033645")
+    titel = get_titel(f"{bestand}-titel.csv")
+    exemplare = get_exemplare(f"{bestand}-exemplare.dat")
+    exemplare = exemplare[
+        (
+            (exemplare.bibliothek == "009030115")
+            | (pd.isna(exemplare.bibliothek))
+            | (exemplare.bibliothek == "009033645")
+        )
+        & exemplare.signatur_a.str.startswith(signatur[bestand])
+        & (exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False)
+        & (exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False)
+        & (exemplare.standort != "DBSM/DA")
+        & (
+            exemplare["ausleihcode"].str.contains("e", na=False) == False
+        )  # Ausleihcode nicht e (= Moskauer Bestand)
+    ]
+
+    df = titel.merge(exemplare, on="idn", how="right")
+
+    return df
+
+
+def filtern(df: pd.DataFrame, bestand: str) -> pd.DataFrame:
+    df = df.replace("", np.NaN)
+
+    # jahresfilter für IV
+
+    if bestand == "iv":
+        df = df.replace("", np.NaN)
+
+        df.jahr = df.jahr.str.replace("X", "0")
+        df.fillna({"jahr": "0"}, inplace=True)
+        df = df.astype({"jahr": "int"})
+        df = df[df["jahr"] <= 1785]
+
+    # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+    df = df[~df.idn.isin(blacklist())]
+
+    # Filtered f4241
+    df = df[df["f4241"].isna()]
+
+    # Filtered f4105_9
+    df = df[df["f4105_9"].isna()]
+
+    # Filtered f4243
+    df = df[df["f4243"].isna()]
+
+    # Filtered bbg
+    df = df[df["bbg"] != "Hal"]
+
+    # Filtered bbg
+    df = df[df["bbg"] != "Hfl"]
+
+    # Filtered bbg
+    df = df[df["bbg"] != "Pa"]
+
+    df = df[~df["bbg"].str.contains("Aaq", na=False)]
+
+    df = df.sort_values(
+        by="signatur_a",
+        ascending=True,
+        na_position="first",
+        key=lambda X: np.argsort(index_natsorted(df["signatur_a"])),
     )
-    & exemplare.signatur_a.str.startswith("Bö")
-    & (exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False)
-    & (exemplare.standort != "DBSM/DA")
-]
+    return df
 
 
-df = titel.merge(exemplare, on="idn", how="right")
-
-df = df.replace("", np.NaN)
-
-# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(blacklist())]
-
-# Filtered f4241
-df = df[df["f4241"].isna()]
-
-# Filtered f4105_9
-df = df[df["f4105_9"].isna()]
-
-# Filtered bbg
-df = df[df["bbg"] != "Hal"]
-
-# Filtered bbg
-df = df[df["bbg"] != "Hfl"]
-
-# Filtered bbg
-df = df[df["bbg"] != "Pa"]
-
-df = df.sort_values(
-    by="signatur_a",
-    ascending=True,
-    na_position="first",
-    key=lambda X: np.argsort(index_natsorted(df["signatur_a"])),
-)
-
-spalten = (
-    "idn",
-    "akz",
-    "bbg",
-    "standort",
-    "signatur_g",
-    "signatur_a",
-    "titel",
-    "stuecktitel",
-    "umfang",
-    "f4243",
-    "f4256",
-    "f4241",
-    "f4105_9",
-    "f4105_g",
-    "ausleihcode",
-    "sig_komm",
-    "f4801_a",
-    "bibliothek",
-    "einrichtung",
-    "exemplar",
-    "wert",
-)
-
-write_columns = [spalte for spalte in spalten if spalte in df.columns]
-
-df.to_excel("abzug/böm.xlsx", index=False, columns=write_columns)
-df.to_csv("abzug/böm.csv", index=False, columns=write_columns)
-df.to_excel(f"abzug/{heute}/{heute}-böm.xlsx", index=False, columns=write_columns)
-df.to_csv(f"abzug/{heute}/{heute}-böm.csv", index=False, columns=write_columns)
-
-
-# Bö Ink
-titel = get_titel("böink-titel.csv")
-exemplare = get_exemplare("böink-exemplare.dat")
-exemplare = exemplare[
-    exemplare.signatur_a.str.startswith("Bö")
-    & (exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False)
-    & (exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False)
-    & (exemplare["standort"] != "DBSM/DA")
-]
-
-df = titel.merge(exemplare, on="idn", how="right")
-
-df = df.replace("", np.NaN)
-
-# Filtered f4105_9
-df = df[df["f4105_9"].isna()]
-
-# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(blacklist())]
-
-# Filtered f4243
-df = df[df["f4243"].isna()]
-
-# Filtered bbg
-df = df[~df["bbg"].str.contains("Aaq", na=False)]
-
-# Filtered standort
-# df = df[df["standort"] != "DBSM/DA"]
-
-df = df.sort_values(
-    by="signatur_a",
-    ascending=True,
-    na_position="first",
-    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
-)
-
-spalten = (
-    "idn",
-    "akz",
-    "bbg",
-    "standort",
-    "signatur_g",
-    "signatur_a",
-    "titel",
-    "stuecktitel",
-    "umfang",
-    "f4243",
-    "f4256",
-    "f4241",
-    "f4105_9",
-    "f4105_g",
-    "ausleihcode",
-    "f4801_a",
-    "f4801_k",
-    "einrichtung",
-    "exemplar",
-    "wert",
-)
-
-write_columns = [spalte for spalte in spalten if spalte in df.columns]
-
-df.to_excel("abzug/böink.xlsx", index=False, columns=write_columns)
-df.to_csv("abzug/böink.csv", index=False, columns=write_columns)
-
-df.to_excel(f"abzug/{heute}/{heute}-böink.xlsx", index=False, columns=write_columns)
-df.to_csv(f"abzug/{heute}/{heute}-böink.csv", index=False, columns=write_columns)
-
-# II Inkunabeln
-titel = get_titel("ii-titel.csv")
-
-exemplare = get_exemplare("ii-exemplare.dat")
-exemplare = exemplare[
-    (
-        (exemplare.bibliothek == "009030115")
-        | (exemplare.bibliothek == "009033645")
-        | (pd.isna(exemplare.bibliothek))
-    )  # kein exemplar mit BIC DNB oder DBSM oder keiner BIC
-    & exemplare.signatur_a.str.startswith("II ")
-    & (
-        exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False
-    )  # kein angebundenes werk
-    & (
-        exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False
-    )  # kein angebundenes werk
-    & (exemplare["standort"] != "DBSM/DA")  # Standort nicht Dauerausstellung
-    & (
-        exemplare["ausleihcode"].str.contains("e", na=False) == False
-    )  # Ausleihcode nicht e (= Moskauer Bestand)
-]
-
-df = titel.merge(exemplare, on="idn", how="right")
-
-df = df.replace("", np.NaN)
-
-# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(blacklist())]
-
-# Filtered f4105_9
-df = df[df["f4105_9"].isna()]
-
-# Filtered f4241
-df = df[df["f4241"].isna()]
-
-df = df.sort_values(
-    by="signatur_a",
-    ascending=True,
-    na_position="first",
-    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
-)
-spalten = (
-    "idn",
-    "akz",
-    "bbg",
-    "standort",
-    "signatur_g",
-    "signatur_a",
-    "titel",
-    "stuecktitel",
-    "umfang",
-    "f4243",
-    "f4256",
-    "f4241",
-    "f4105_9",
-    "f4105_g",
-    "ausleihcode",
-    "sig_komm",
-    "f4801_a",
-    "f4801_k",
-    "einrichtung",
-    "exemplar",
-    "wert",
-)
-
-write_columns = [spalte for spalte in spalten if spalte in df.columns]
-
-df.to_excel("abzug/ii.xlsx", index=False, columns=write_columns)
-df.to_csv("abzug/ii.csv", index=False, columns=write_columns)
-
-df.to_excel(f"abzug/{heute}/{heute}-ii.xlsx", index=False, columns=write_columns)
-df.to_csv(f"abzug/{heute}/{heute}-ii.csv", index=False, columns=write_columns)
-
-
-# III (Drucke 1501-1560)
-titel = get_titel("iii-titel.csv")
-
-exemplare = get_exemplare("iii-exemplare.dat")
-exemplare = exemplare[
-    (
-        (exemplare.bibliothek == "009030115")
-        | (exemplare.bibliothek == "009033645")
-        | (pd.isna(exemplare.bibliothek))
+def schreiben(df: pd.DataFrame, bestand: str) -> None:
+    spalten = (
+        "idn",
+        "akz",
+        "bbg",
+        "standort",
+        "signatur_g",
+        "signatur_a",
+        "titel",
+        "stuecktitel",
+        "umfang",
+        "f4243",
+        "f4256",
+        "f4241",
+        "f4105_9",
+        "f4105_g",
+        "ausleihcode",
+        "sig_komm",
+        "f4801_a",
+        "bibliothek",
+        "einrichtung",
+        "exemplar",
+        "wert",
     )
-    & exemplare.signatur_a.str.startswith("III")
-    & (
-        exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False
-    )  # kein angebundenes werk
-    & (
-        exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False
-    )  # kein angebundenes werk
-    & (exemplare["standort"] != "DBSM/DA")  # Standort nicht Dauerausstellung
-    & (
-        exemplare["ausleihcode"].str.contains("e", na=False) == False
-    )  # Ausleihcode nicht e (= Moskauer Bestand)
-]
 
-df = titel.merge(exemplare, on="idn", how="right")
+    write_columns = [spalte for spalte in spalten if spalte in df.columns]
 
-df = df.replace("", np.NaN)
-
-# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(blacklist())]
-
-# Filtered f4241
-df = df[df["f4241"].isna()]
-
-# Filtered f4105_9
-df = df[df["f4105_9"].isna()]
-
-# Filtered bbg
-df = df[df["bbg"] != "Hal"]
-
-# Filtered bbg
-df = df[~df["bbg"].str.contains("Aaq", na=False)]
-
-# Filtered signatur_g
-df = df[~df["signatur_a"].str.contains("II 30,13", na=False)]
-
-df = df.sort_values(
-    by="signatur_a",
-    ascending=True,
-    na_position="first",
-    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
-)
-
-spalten = (
-    "idn",
-    "akz",
-    "bbg",
-    "standort",
-    "signatur_g",
-    "signatur_a",
-    "titel",
-    "stuecktitel",
-    "umfang",
-    "f4243",
-    "f4256",
-    "f4241",
-    "f4105_9",
-    "f4105_g",
-    "ausleihcode",
-    "sig_komm",
-    "f4801_a",
-    "f4801_k",
-    "einrichtung",
-    "exemplar",
-    "wert",
-)
-
-write_columns = [spalte for spalte in spalten if spalte in df.columns]
-
-df.to_excel("abzug/iii.xlsx", index=False, columns=write_columns)
-df.to_csv("abzug/iii.csv", index=False, columns=write_columns)
-
-df.to_excel(f"abzug/{heute}/{heute}-iii.xlsx", index=False, columns=write_columns)
-df.to_csv(f"abzug/{heute}/{heute}-iii.csv", index=False, columns=write_columns)
-
-# IV (Drucke 1561-1800)
-titel = get_titel("iv-titel.csv")
-
-exemplare = get_exemplare("iv-exemplare.dat")
-exemplare = exemplare[
-    (
-        (exemplare.bibliothek == "009030115")
-        | (exemplare.bibliothek == "009033645")
-        | (pd.isna(exemplare.bibliothek))
+    df.to_excel(f"abzug/{bestand}.xlsx", index=False, columns=write_columns)
+    df.to_csv(f"abzug/{bestand}.csv", index=False, columns=write_columns)
+    df.to_excel(
+        f"abzug/{heute}/{heute}-{bestand}.xlsx", index=False, columns=write_columns
     )
-    & exemplare.signatur_a.str.startswith("IV")
-    & (
-        exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False
-    )  # kein angebundenes werk
-    & (
-        exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False
-    )  # kein angebundenes werk
-    & (exemplare["standort"] != "DBSM/DA")  # Standort nicht Dauerausstellung
-    & (
-        exemplare["ausleihcode"].str.contains("e", na=False) == False
-    )  # Ausleihcode nicht e (= Moskauer Bestand)
-]
+    df.to_csv(
+        f"abzug/{heute}/{heute}-{bestand}.csv", index=False, columns=write_columns
+    )
 
-df = titel.merge(exemplare, on="idn", how="right")
 
-df = df.replace("", np.NaN)
+# main
+# alle bestände aus dem Tuple bestaende werden geladen, gefiltert und die ergebnisse geschrieben
+bestaende = ("böm", "böink", "ii", "iii", "iv")
 
-df.jahr = df.jahr.str.replace("X", "0")
-df.fillna({"jahr": "0"}, inplace=True)
-df = df.astype({"jahr": "int"})
+for bestand in bestaende:
+    df = einlesen(bestand)
+    df = filtern(df, bestand)
+    schreiben(df, bestand)
 
-# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(blacklist())]
-
-# Filtered f4241
-df = df[df["f4241"].isna()]
-
-# Filtered f4105_9
-df = df[df["f4105_9"].isna()]
-
-# Filtered jahr
-df = df[df["jahr"] <= 1785]
-
-df = df.sort_values(
-    by="signatur_a",
-    ascending=True,
-    na_position="first",
-    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
-)
-
-spalten = (
-    "idn",
-    "akz",
-    "bbg",
-    "standort",
-    "signatur_g",
-    "signatur_a",
-    "jahr",
-    "titel",
-    "stuecktitel",
-    "umfang",
-    "f4243",
-    "f4256",
-    "f4241",
-    "f4105_9",
-    "f4105_g",
-    "ausleihcode",
-    "sig_komm",
-    "f4801_a",
-    "f4801_k",
-    "bibliothek",
-    "einrichtung",
-    "exemplar",
-    "wert",
-)
-
-write_columns = [spalte for spalte in spalten if spalte in df.columns]
-
-df.to_csv("abzug/iv.csv", index=False, columns=write_columns)
-df.to_excel("abzug/iv.xlsx", index=False, columns=write_columns)
-
-df.to_excel(f"abzug/{heute}/{heute}-iv.xlsx", index=False, columns=write_columns)
-df.to_csv(f"abzug/{heute}/{heute}-iv.csv", index=False, columns=write_columns)
-
-# Schreibmeisterbücher
+# schreibmeisterbücher können nicht nach dem allgemeinen system verarbeitet werden, weil es bei ihnen verschiedene besonderheiten gibt.
 
 titel = get_titel("schreibmeister-titel.csv")
 exemplare = get_exemplare("schreibmeister-exemplare.dat")
