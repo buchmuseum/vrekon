@@ -301,7 +301,7 @@ titel = titel.astype({"jahr": "int"})
 df = titel.merge(exemplare, on="idn", how="right")
 
 df = df.replace("", np.NaN)
-
+df = df[df["jahr"] <= 1830]
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
 

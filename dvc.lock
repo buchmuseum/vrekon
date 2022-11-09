@@ -54,8 +54,7 @@ stages:
       select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4243,f4256,f4241,f4105_9,f4105_g"
       -o filter/schreibmeister-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "044P/*.9 == '041799844'
-      && 011@.a =~ '^([01xX][0-7xX][0-9xX][0-9xX])|([01xX][8][12][0-9xX])|([01xX][8][3][0])'"
+    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "044P/*.9 == '041799844'"
       dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/schreibmeister-exemplare.dat
     deps:
     - path: dump/dbsm-titel-exemplare.dat.gz
@@ -93,8 +92,8 @@ stages:
       md5: f275f399db51ce36793adf0f99686a99
       size: 1001138
     - path: filter/schreibmeister-exemplare.dat
-      md5: a590b886abf26822dc6f3cca93b1a2ee
-      size: 32532
+      md5: 78a48bfc022ae9354c4bde2882745525
+      size: 37641
     - path: filter/schreibmeister-titel.csv
       md5: 6862a6c491f090c62d6e36df2cb1b57b
       size: 40875
@@ -136,48 +135,48 @@ stages:
       md5: f275f399db51ce36793adf0f99686a99
       size: 1001138
     - path: filter/schreibmeister-exemplare.dat
-      md5: a590b886abf26822dc6f3cca93b1a2ee
-      size: 32532
+      md5: 78a48bfc022ae9354c4bde2882745525
+      size: 37641
     - path: filter/schreibmeister-titel.csv
       md5: 6862a6c491f090c62d6e36df2cb1b57b
       size: 40875
     - path: skripte/abzug.py
-      md5: ca1838f0934bf6630050cf8f741ca294
-      size: 11040
+      md5: f92e085db0ef01e88737a7964bd3d996
+      size: 10189
     outs:
     - path: abzug/böink.csv
       md5: 7c7e3350cd2168f3c1b024207b8e3d0a
       size: 39516
     - path: abzug/böink.xlsx
-      md5: e3e819a88c75267ec24a847376458a68
-      size: 27001
+      md5: f13ccd1e655a1b9a365c76afdd2914c6
+      size: 27002
     - path: abzug/böm.csv
       md5: 4b50bf75808538575979dd3f2d17e4da
       size: 106510
     - path: abzug/böm.xlsx
-      md5: d6be25e220aa1f52e3e5f6faeeb2f1ed
+      md5: 0b2118c90294c100fee2870ceaef0a3e
       size: 65065
     - path: abzug/ii.csv
       md5: 942e84b6fcba1ff2a8f8ebf19c1bdfd1
       size: 93456
     - path: abzug/ii.xlsx
-      md5: 0e7c9d8d83853ae3c240e71a28dbd306
-      size: 58448
+      md5: cdb2d76271bc8e4fc82a5ef6ca446fb5
+      size: 58450
     - path: abzug/iii.csv
       md5: 54228428c5d46630057d51223fc99b1b
       size: 244395
     - path: abzug/iii.xlsx
-      md5: 3828c7200f801069b1b1abb1e9d5ccf7
-      size: 137866
+      md5: 24b4eb7979455168d6730e6db88d8ae7
+      size: 137867
     - path: abzug/iv.csv
       md5: f911c6682d59bc16936f0ad4fcd1980c
       size: 796015
     - path: abzug/iv.xlsx
-      md5: 57eac59bd2a45c1f7cdfb1cf879654ec
+      md5: 7d9d8b7d6f8f480233ee10aad3ff131a
       size: 408699
     - path: abzug/schreibmeister.csv
-      md5: c706a4ed1eecd8ada78488e366c0d5d0
-      size: 47897
+      md5: 0ba6e0cbd8c20c37030f877ff13904db
+      size: 50547
     - path: abzug/schreibmeister.xlsx
-      md5: 12ddc9aa02f6538edec4a6f10c9dc026
-      size: 32236
+      md5: 0a68d23088714745de7290a071aeed36
+      size: 32228
