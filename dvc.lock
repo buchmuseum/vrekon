@@ -102,8 +102,8 @@ stages:
     - python ./skripte/abzug.py
     deps:
     - path: blacklist.txt
-      md5: 89349dcd68d25ca6f1591f537fcf71f1
-      size: 1975
+      md5: 1de02655b145f2c2777923279bc2a5fc
+      size: 1994
     - path: filter/böink-exemplare.dat
       md5: 27e37093795b7cbe91667685531f667e
       size: 47075
@@ -141,42 +141,42 @@ stages:
       md5: bccd9707ba3045d1030ff3fef485c8cc
       size: 40875
     - path: skripte/abzug.py
-      md5: f92e085db0ef01e88737a7964bd3d996
-      size: 10189
+      md5: acd2743caf8bc71a348fbab159c5fc61
+      size: 10239
     outs:
     - path: abzug/böink.csv
       md5: e55d6f54b9ad7f975e4eb817069fa0df
       size: 39499
     - path: abzug/böink.xlsx
-      md5: 2d8a679488d62cb9465241413a7b787d
-      size: 27045
+      md5: 8da4848ae3a009efa55f6ae19cf80af8
+      size: 27046
     - path: abzug/böm.csv
       md5: 6f6e57e31e683f4046a4cb6ccae10d26
       size: 107368
     - path: abzug/böm.xlsx
-      md5: 32a2baf81386cd1ca0db6d90ea3c470d
-      size: 65762
+      md5: 263f2bdcd9783433b6f507dcd2c7f535
+      size: 65763
     - path: abzug/ii.csv
       md5: 672ba65d464c0d2475239dcdaebace69
       size: 95080
     - path: abzug/ii.xlsx
-      md5: 4c0ce05bef572bb0cb60e7f5d30a9f0e
-      size: 59485
+      md5: 04efea1e85782f5118803ded42b10fa9
+      size: 59486
     - path: abzug/iii.csv
-      md5: 88c34e6e45d1ee5411a6a9893a761ce9
-      size: 240785
+      md5: 7292591ad27a4f587ae4796e517c6c8e
+      size: 240059
     - path: abzug/iii.xlsx
-      md5: 50a923bc5acf65bb38b2c1c429129b93
-      size: 135433
+      md5: e19f63e7b0dca276ded4a6c13e99b9cd
+      size: 136049
     - path: abzug/iv.csv
       md5: ffa840c80cba9774b4d0130ada94c95a
       size: 783020
     - path: abzug/iv.xlsx
-      md5: 4f64c54400f5e41888e740b96def99c3
-      size: 401453
+      md5: 5650e6721db16c38523aad9475a8c4d1
+      size: 401454
     - path: abzug/schreibmeister.csv
-      md5: 0ba6e0cbd8c20c37030f877ff13904db
-      size: 50547
+      md5: 2d7a7299367ce1fc892c1c947f988859
+      size: 48921
     - path: abzug/schreibmeister.xlsx
-      md5: fea38833bcbe15389d74868cd9a64472
-      size: 32226
+      md5: e27b5015906c6831fd14382beafbf191
+      size: 31462

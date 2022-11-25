@@ -201,12 +201,12 @@ def filtern(df: pd.DataFrame, bestand: str) -> pd.DataFrame:
 
     # jahresfilter für IV
 
-    if bestand == "iv":
-        df = df.replace("", np.NaN)
+    df = df.replace("", np.NaN)
+    df.jahr = df.jahr.str.replace("X", "0")
+    df.fillna({"jahr": "0"}, inplace=True)
+    df = df.astype({"jahr": "int"})
 
-        df.jahr = df.jahr.str.replace("X", "0")
-        df.fillna({"jahr": "0"}, inplace=True)
-        df = df.astype({"jahr": "int"})
+    if bestand == "iv":
         df = df[df["jahr"] <= 1785]
 
     # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
@@ -264,6 +264,7 @@ def schreiben(df: pd.DataFrame, bestand: str) -> None:
         "einrichtung",
         "exemplar",
         "wert",
+        "jahr",
     )
 
     write_columns = [spalte for spalte in spalten if spalte in df.columns]
@@ -304,6 +305,9 @@ df = df.replace("", np.NaN)
 df = df[df["jahr"] <= 1830]
 # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
 df = df[~df.idn.isin(blacklist())]
+
+# Filtered f4105_9
+df = df[df["f4105_9"].isna()]
 
 df = df.sort_values(
     by="signatur_a",
