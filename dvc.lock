@@ -141,42 +141,42 @@ stages:
       md5: bccd9707ba3045d1030ff3fef485c8cc
       size: 40875
     - path: skripte/abzug.py
-      md5: f819d3688ffc73cd322203e080a9a280
-      size: 16771
+      md5: 0fee39a2f585b8d82d2469c3dadb72d2
+      size: 17037
     outs:
     - path: abzug/böink.csv
       md5: 2c98ce5b30743d8ded31884b0c5dc710
       size: 32520
     - path: abzug/böink.xlsx
-      md5: a492417c41d3772726ad9a3292057485
-      size: 23524
+      md5: 8ea6c2ab7d7afa4c4c8987a171106915
+      size: 23523
     - path: abzug/böm.csv
       md5: 8e4fe88ad0617c1194e6a8ac55b723df
       size: 79049
     - path: abzug/böm.xlsx
-      md5: 6256cd53affa2fe0c35e3ad9803d8abd
-      size: 50465
+      md5: 60a8e0cd5e50ca6b06666d8c75ed0e4c
+      size: 50464
     - path: abzug/ii.csv
       md5: 59769d1c331d902c7bd6c82e8369765c
       size: 75425
     - path: abzug/ii.xlsx
-      md5: adf01442be4327bdc4be78c5dad1523a
+      md5: 15c8b85710080f393bb84ce22cd1b442
       size: 51035
     - path: abzug/iii.csv
       md5: c68aca40ca61686b2999e7326343be4b
       size: 158311
     - path: abzug/iii.xlsx
-      md5: 950c2b23bfd617cd6fc1456243aff2ab
-      size: 94957
+      md5: a5550d4fe404eb94746adeb3b40f68fc
+      size: 94958
     - path: abzug/iv.csv
       md5: 48dae282fd7cbefb8576c40958a6d607
       size: 848671
     - path: abzug/iv.xlsx
-      md5: b6ef3b8276ec2929f3c624211a01631d
+      md5: 4c3380fb7386e57bd1a07c51d221049f
       size: 424972
     - path: abzug/schreibmeister.csv
       md5: 9dd26809d9805c4756d7c932f334bba6
       size: 41601
     - path: abzug/schreibmeister.xlsx
-      md5: ae42ac594deaa23c8da50a80ac909065
+      md5: 63aea1e89fb610e695a1671bb351a5f6
       size: 28635

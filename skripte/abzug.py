@@ -342,6 +342,9 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
         inplace=True,
     )
 
+    # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts und bei verschiedenen String-Replacements weiter unten)
+    df.fillna("", inplace=True)
+
     # alle Datensätze, die nicht im CBS-Abzug waren, werden auf False gesetzt
     df.loc[df["idn"].isna(), "digi"] = False
 
@@ -358,11 +361,10 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
     df.loc[df["Rest.-\nAufwand gesamt\n(in Std.)"] > 0, "Restaurierung"] = "x"
 
     # Bereinigung der Doppelpunkte in titel und stuecktitel
-    df.loc[df.titel.str.endswith(" : "), "titel"] = df.titel[:-3]
-    df.loc[df.stuecktitel.str.endswith(" : "), "stuecktitel"] = df.stuecktitel[:-3]
-
-    # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts)
-    df.fillna("", inplace=True)
+    df.loc[df.titel.str.endswith(" : "), "titel"] = df.titel.apply(lambda x: x[:-3])
+    df.loc[df.stuecktitel.str.endswith(" : "), "stuecktitel"] = df.stuecktitel.apply(
+        lambda x: x[:-3]
+    )
 
     # Die Tabelle wird nach der Spalte Signatur mit natürlicher Sortierung sortiert
     df = df.sort_values(
