@@ -153,6 +153,9 @@ def get_titel(datei: str) -> pd.DataFrame:
 
 
 def blacklist() -> Tuple:
+    """
+    Funktion liest die Datei blacklist.txt und gibt ein tuple mit allen idns zurück, die ignoriert werden sollen. jede idn kann gegen dieses tuple, d.h. gegen diese funktion gecheckt werden mit 'if idn in blacklist()' Die Funktion filter alles aus, was mit # beginnt
+    """
     liste = list()
     with open("blacklist.txt", "r") as f:
         for line in f:
@@ -174,8 +177,17 @@ def einlesen(bestand: str) -> pd.DataFrame:
         "iv": "IV",
     }
 
+    # titeldaten des jeweiligen teilbestands einlesen
     titel = get_titel(f"{bestand}-titel.csv")
+    # exemplardaten des jeweiligen bestands einlesen
     exemplare = get_exemplare(f"{bestand}-exemplare.dat")
+
+    # exemplardaten reduzieren.
+    # nur solche mit ISIL DNB oder DBSM bzw ohne ISIL (= unsere Daten außerhalb ZDB)
+    # nur solche, deren signatur mit den entsprechenden zeichen beginnt, wie in match-dictionary signatur oben festgelegt
+    # keine, deren signatur die zeichenkette "angeb" enthält (= angebundene Werke)
+    # keine mit Standort DBSM/DA = Dauerausstellung
+    # keine mit Ausleihcode e = Verlust oder Moskauer Bestand
     exemplare = exemplare[
         (
             (exemplare.bibliothek == "009030115")
@@ -186,11 +198,10 @@ def einlesen(bestand: str) -> pd.DataFrame:
         & (exemplare.signatur_a.str.contains("angeb", na=False, case=False) == False)
         & (exemplare.signatur_g.str.contains("angeb", na=False, case=False) == False)
         & (exemplare.standort != "DBSM/DA")
-        & (
-            exemplare["ausleihcode"].str.contains("e", na=False) == False
-        )  # Ausleihcode nicht e (= Moskauer Bestand)
+        & (exemplare["ausleihcode"].str.contains("e", na=False) == False)
     ]
 
+    # merge von titeln und exemplardaten, es bleiben nur titel erhalten, die auch ein gültiges exemplar haben
     df = titel.merge(exemplare, on="idn", how="right")
 
     return df
