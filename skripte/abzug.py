@@ -124,7 +124,7 @@ def get_exemplare(datei: str) -> pd.DataFrame:
 
 def get_titel(datei: str) -> pd.DataFrame:
     df = pd.read_csv(f"{filter_path}/{datei}", low_memory=False, dtype="string")
-    df["titel"] = df.tit_a.str.cat(df.tit_d, sep=" : ", na_rep="")
+    df["titel"] = df.tit_a.str.cat(df.tit_d, sep=" : ")
     df.loc[pd.notna(df.tit_Y), "titel"] = df.tit_Y
     df.titel = df.titel.str.slice(0, 150)
 
@@ -144,9 +144,7 @@ def get_titel(datei: str) -> pd.DataFrame:
         how="right",
     ).drop(["stuecktitel_a_x"], axis=1)
 
-    df["stuecktitel"] = df.stuecktitel_l_y.str.cat(
-        df.stuecktitel_a_y, sep=" : ", na_rep=""
-    )
+    df["stuecktitel"] = df.stuecktitel_l_y.str.cat(df.stuecktitel_a_y, sep=" : ")
     df.drop(
         ["stuecktitel_l_y", "stuecktitel_a_y", "tit_a", "tit_d", "tit_Y"],
         axis=1,
@@ -358,6 +356,10 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
         df["Rest.-\nAufwand gesamt\n(in Std.)"]
     )
     df.loc[df["Rest.-\nAufwand gesamt\n(in Std.)"] > 0, "Restaurierung"] = "x"
+
+    # Bereinigung der Doppelpunkte in titel und stuecktitel
+    df.loc[df.titel.str.endswith(" : "), "titel"] = df.titel[:-3]
+    df.loc[df.stuecktitel.str.endswith(" : "), "stuecktitel"] = df.stuecktitel[:-3]
 
     # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts)
     df.fillna("", inplace=True)
