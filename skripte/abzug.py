@@ -6,6 +6,9 @@ import numpy as np
 from natsort import index_natsorted
 from typing import List, Tuple
 from datetime import datetime
+import openpyxl
+from openpyxl.utils.dataframe import dataframe_to_rows
+from openpyxl.worksheet.table import Table
 
 filter_path = "filter"
 
@@ -14,6 +17,9 @@ heute = datetime.now().strftime("%y-%m-%d")
 
 if not os.path.isdir(f"./abzug/{heute}"):
     os.mkdir(f"./abzug/{heute}")
+
+if not os.path.isdir(f"./listen_out/{heute}"):
+    os.mkdir(f"./listen_out/{heute}")
 
 
 def make_nested_frame(dict) -> pd.DataFrame:
@@ -213,6 +219,7 @@ def filtern(df: pd.DataFrame, bestand: str) -> pd.DataFrame:
     # jahresfilter für IV
 
     df = df.replace("", np.NaN)
+    df["jahr"] = pd.Series(dtype="str") if "jahr" not in df.columns else None
     df.jahr = df.jahr.str.replace("X", "0")
     df.fillna({"jahr": "0"}, inplace=True)
     df = df.astype({"jahr": "int"})
@@ -252,7 +259,7 @@ def filtern(df: pd.DataFrame, bestand: str) -> pd.DataFrame:
     return df
 
 
-def schreiben(df: pd.DataFrame, bestand: str) -> None:
+def abzug_schreiben(df: pd.DataFrame, bestand: str) -> None:
     spalten = (
         "idn",
         "akz",
@@ -290,41 +297,172 @@ def schreiben(df: pd.DataFrame, bestand: str) -> None:
     )
 
 
-# main
-# alle bestände aus dem Tuple bestaende werden geladen, gefiltert und die ergebnisse geschrieben
-bestaende = ("böm", "böink", "ii", "iii", "iv")
+def list_merge(abzug: pd.DataFrame, bestand: str):
+    """
+    Abgleich des aktuellen CBS Abzugs mit den Excel-Listen im Verzeichnis 'listen_in'. Ergebnisse werden nach 'listen_out' geschrieben.
+    """
+    # matching zwischen der kurzschreibweise der bestandsgruppen und der langschreibweise, die in die erste spalte "Gruppe" geschrieben wird.
+    gruppen = {
+        "ii": "II",
+        "böink": "Bö Ink",
+        "böm": "Bö M",
+        "schreibmeister": "Schreibmeister",
+        "iii": "III",
+        "iv": "IV",
+    }
 
-for bestand in bestaende:
-    df = einlesen(bestand)
-    df = filtern(df, bestand)
-    schreiben(df, bestand)
+    # einlesen der aktuellen excel-tabelle des jeweiligen bestands
+    be = pd.read_excel(
+        f"listen_in/{bestand}.xlsx",
+        sheet_name="Basis",
+        dtype={"IDN": "string", "AKZ": "string"},
+    )
 
-# schreibmeisterbücher können nicht nach dem allgemeinen system verarbeitet werden, weil es bei ihnen verschiedene besonderheiten gibt.
+    # outer-merge der beiden tabellen, d.h. alle datensätze aus beiden tabellen bleiben erhalten, Gesamttabelle heißt df
+    df = be.merge(abzug, how="outer", left_on=["AKZ", "IDN"], right_on=["akz", "idn"])
 
-titel = get_titel("schreibmeister-titel.csv")
-exemplare = get_exemplare("schreibmeister-exemplare.dat")
+    # Schreiben der aktualisierten Daten des neuen Abzugs über die alten Daten
+    df.loc[df["Signatur"].isna(), "Signatur"] = df.signatur_a_y
+    df.loc["bbg_x"] = df.bbg_y
+    df.loc["signatur_g_x"] = df.signatur_g_y
+    df.loc["signatur_a_x"] = df.signatur_a_y
+    df.loc["titel_x"] = df.titel_y
+    df.loc["stuecktitel_x"] = df.stuecktitel_y
+    df.loc["wert_x"] = df.wert_y
 
-titel.jahr = titel.jahr.str.replace("[xX]", "0", regex=True)
-titel.jahr = titel.jahr.str.replace("[\[\]]", "", regex=True)
+    # es gibt spalten, die in beiden tabellen vorkommen, beim mergen versieht pandas deshalb die spalten mit dem suffix _x für die linke tabelle (= die aktuelle gesamttabelle) bzw _y (= CBS-Abzug).
+    df.rename(
+        {
+            "bbg_x": "bbg",
+            "signatur_g_x": "signatur_g",
+            "signatur_a_x": "signatur_a",
+            "titel_x": "titel",
+            "stuecktitel_x": "stuecktitel",
+            "wert_x": "wert",
+        },
+        axis=1,
+        inplace=True,
+    )
 
-titel.fillna({"jahr": "0"}, inplace=True)
-titel = titel.astype({"jahr": "int"})
+    # alle Datensätze, die nicht im CBS-Abzug waren, werden auf False gesetzt
+    df.loc[df["idn"].isna(), "digi"] = False
 
-df = titel.merge(exemplare, on="idn", how="right")
+    # alle Datensätze werden auf True gesetzt, die auch im CBS-abzug waren oder die in der Spalte Whiteliste eine Markierung haben
+    df.loc[(df["idn"].notna() | df["Whitelist"].notna()), "digi"] = True
 
-df = df.replace("", np.NaN)
-df = df[df["jahr"] <= 1830]
-# idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
-df = df[~df.idn.isin(blacklist())]
+    # alle Datensätze, die Öffnungswinkel 0 haben, werden auf False gesetzt
+    df.loc[df["max. Öffnungs-winkel"] == "0", "digi"] = False
 
-# Filtered f4105_9
-df = df[df["f4105_9"].isna()]
+    # wenn der Restaurierungsaufwand größer als Null ist, wird das in der Spalte "Restaurierung" mit einem kleinen x markiert. Dazu wird der Datentyp vorher in eine Zahl konvertiert, bisher war es ein string.
+    df["Rest.-\nAufwand gesamt\n(in Std.)"] = pd.to_numeric(
+        df["Rest.-\nAufwand gesamt\n(in Std.)"]
+    )
+    df.loc[df["Rest.-\nAufwand gesamt\n(in Std.)"] > 0, "Restaurierung"] = "x"
 
-df = df.sort_values(
-    by="signatur_a",
-    ascending=True,
-    na_position="first",
-    key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
-)
+    # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts)
+    df.fillna("", inplace=True)
 
-schreiben(df, "schreibmeister")
+    # Die Tabelle wird nach der Spalte Signatur mit natürlicher Sortierung sortiert
+    df = df.sort_values(
+        by="Signatur",
+        ascending=True,
+        na_position="first",
+        key=lambda X: np.argsort(index_natsorted(df["Signatur"])),
+    )
+
+    # Spalte Gruppe wird mit aktuellem Bestand gefüllt
+    df["Gruppe"] = gruppen[bestand]
+
+    # Defragmentierung des DataFrames nach den zahlreichen Einzeländerungen
+    df = df.copy()
+
+    # link zum portal neu erzeugen
+    df["Link zum Portal"] = (
+        '=HYPERLINK("https://portal.dnb.de/opac.htm?method=simpleSearch&cqlMode=true&query=idn%3D'
+        + df["IDN"].astype(str)
+        + '", "Portal")'
+    )
+
+    # in die liste der zu schreibenden spalten werden alle aufgenommen, außer die des cbs-abzuges, deshaln wird die liste um die anzahl der spalten von abzug gekürzt
+    spaltenliste = list(df.columns)[: -abzug.shape[1]]
+
+    # Das Tabellenblatt "Basis" wird aus der ursprünglichen Excel-Mappe gelöscht.
+    wb = openpyxl.load_workbook(f"listen_in/{bestand}.xlsx")
+    wb.remove(wb["Basis"])
+
+    # Ein neues mit gleichem Name wird angelegt, mit den Daten des DataFrames vollgeschrieben
+    ws = wb.create_sheet("Basis", 0)
+
+    # Datentypen aller Spalten werden verändert, so dass beim Schreiben in die Exceltabelle keine Verluste auftreten.
+    df = df.astype("object")
+
+    # schreiben aller daten in das tabellenblatt
+    for r in dataframe_to_rows(df[spaltenliste], index=False):
+        ws.append(r)
+
+    # formatieren der tabelle als Tabelle mit Name "Basistabelle"
+    tab = Table(displayName="Basistabelle", ref=ws.dimensions)
+    ws.add_table(tab)
+
+    # speichern
+    wb.save(f"listen_out/{bestand}.xlsx")
+    wb.save(f"listen_out/{heute}/{bestand}.xlsx")
+
+
+def schreibmeister():
+    titel = get_titel("schreibmeister-titel.csv")
+    exemplare = get_exemplare("schreibmeister-exemplare.dat")
+
+    titel.jahr = titel.jahr.str.replace("[xX]", "0", regex=True)
+    titel.jahr = titel.jahr.str.replace("[\[\]]", "", regex=True)
+
+    titel.fillna({"jahr": "0"}, inplace=True)
+    titel = titel.astype({"jahr": "int"})
+
+    df = titel.merge(exemplare, on="idn", how="right")
+
+    df = df.replace("", np.NaN)
+    df = df[df["jahr"] <= 1830]
+    # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
+    df = df[~df.idn.isin(blacklist())]
+
+    # Filtered f4105_9
+    df = df[df["f4105_9"].isna()]
+
+    df = df.sort_values(
+        by="signatur_a",
+        ascending=True,
+        na_position="first",
+        key=lambda x: np.argsort(index_natsorted(df["signatur_a"])),
+    )
+
+    abzug_schreiben(df, "schreibmeister")
+    list_merge(df, "schreibmeister")
+
+
+def main():
+    # alle bestände aus dem Tuple bestaende werden geladen, gefiltert und die ergebnisse geschrieben
+
+    bestaende = ("böm", "böink", "ii", "iii", "iv")
+
+    for bestand in bestaende:
+
+        # die exemplar- und titeldaten werden aus den separaten durch pica-rs erzeugten dateien eingelesen und zusammen in ein DataFramge geschrieben
+        df = einlesen(bestand)
+
+        # das DataFrame wird so gefilter, dass alle titel und exemplare verschwinden, die nicht in das projekt gehören
+        df = filtern(df, bestand)
+
+        # aktueller cbs-abzug wird in verzeichnis abzug gespeichert
+        abzug_schreiben(df, bestand)
+
+        # aktueller abzug wird mit den letzeten projektlisten gematcht und gemerget
+        list_merge(df, bestand)
+
+    # schreibmeisterbücher haben wegen versch. Besonderheiten eine eigene Funktion, mit der sie ausgewertet werden.
+    schreibmeister()
+
+
+# standard python-klausel, die die funktion main() aufruft, wenn das skript ohne weitere paramter gestartet wird.
+if __name__ == "__main__":
+    main()
