@@ -3,6 +3,8 @@ vars:
   - dump_path: 'dump'
   - filter_path: 'filter'
   - abzug_path: 'abzug'
+  - listen_input_path: 'listen_in'
+  - listen_output_path: 'listen_out'
 
 stages:
   # der Gesamtabzug der DNB-Daten wird auf DBSM-Daten reduziert
@@ -19,6 +21,10 @@ stages:
       - |
         if [ ! -d "abzug/" ]; then
           mkdir abzug
+        fi
+      - |
+        if [ ! -d "listen_out/" ]; then
+          mkdir dump
         fi
       - pica filter -s -g "017A.a =^ 'yy' || 209A/*.f =^ 'DBSM' || 247C/*.9 == '009033645'" ${raw_path}/DNBtitelundexemplare.dat.gz -o ${dump_path}/dbsm-titel-exemplare.dat.gz
     
@@ -96,6 +102,12 @@ stages:
       - ${filter_path}/schreibmeister-titel.csv
       - ${filter_path}/schreibmeister-exemplare.dat
       - blacklist.txt
+      - ${listen_input_path}/böink.xlsx
+      - ${listen_input_path}/böm.xlsx
+      - ${listen_input_path}/ii.xlsx
+      - ${listen_input_path}/iii.xlsx
+      - ${listen_input_path}/iv.xlsx
+      - ${listen_input_path}/schreibmeister.xlsx
     
     outs:
       - ${abzug_path}/böm.csv
@@ -110,3 +122,9 @@ stages:
       - ${abzug_path}/böink.xlsx
       - ${abzug_path}/ii.xlsx
       - ${abzug_path}/iii.xlsx
+      - ${listen_output_path}/böink.xlsx
+      - ${listen_output_path}/böm.xlsx
+      - ${listen_output_path}/ii.xlsx
+      - ${listen_output_path}/iii.xlsx
+      - ${listen_output_path}/iv.xlsx
+      - ${listen_output_path}/schreibmeister.xlsx
