@@ -148,8 +148,8 @@ stages:
       md5: 0fb078978a20a7da2b942f0d9421554d
       size: 140917
     - path: listen_in/ii.xlsx
-      md5: 32695d9bd6f3289d44ac65db7f7870ac
-      size: 148139
+      md5: 082bd0eb3dbf3f20c4bad47728694118
+      size: 148199
     - path: listen_in/iii.xlsx
       md5: f8b809816920a05d7d8c0fc026e4b431
       size: 229281
@@ -167,53 +167,53 @@ stages:
       md5: 2c98ce5b30743d8ded31884b0c5dc710
       size: 32520
     - path: abzug/böink.xlsx
-      md5: b14ff62ac2f8dbc2961cadeb5891c4d0
-      size: 23523
+      md5: 95448ecfcec33b1c0384b09676d2417b
+      size: 23525
     - path: abzug/böm.csv
       md5: 8e4fe88ad0617c1194e6a8ac55b723df
       size: 79049
     - path: abzug/böm.xlsx
-      md5: be5f03777de47662dbfd281b57ec5061
+      md5: 0c60c820a609c52dd6bf2ee769a913ad
       size: 50465
     - path: abzug/ii.csv
       md5: 59769d1c331d902c7bd6c82e8369765c
       size: 75425
     - path: abzug/ii.xlsx
-      md5: de17f225c8daa4a4f4049accafd25a6f
-      size: 51036
+      md5: fc81b02337a5c96bbd4455b8ee949640
+      size: 51037
     - path: abzug/iii.csv
       md5: c68aca40ca61686b2999e7326343be4b
       size: 158311
     - path: abzug/iii.xlsx
-      md5: e2a91f8793e165126be0f16ea8da912b
-      size: 94957
+      md5: cfaae8b39c3ac93da3aea88fee785377
+      size: 94958
     - path: abzug/iv.csv
       md5: 48dae282fd7cbefb8576c40958a6d607
       size: 848671
     - path: abzug/iv.xlsx
-      md5: 34e36aac51c9286d2e25817a7b608ef0
+      md5: 4f075c3c7e51ef2a93b92fc1724adc76
       size: 424973
     - path: abzug/schreibmeister.csv
       md5: 9dd26809d9805c4756d7c932f334bba6
       size: 41601
     - path: abzug/schreibmeister.xlsx
-      md5: ffad93e7009df132137ea8b146b61854
+      md5: 7d6cd5535b8e14c44cd6bc45ea6aa569
       size: 28635
     - path: listen_out/böink.xlsx
-      md5: 1c639e6f81e7fa8fa2eb244c03bfca8a
+      md5: 6f7c8ff58dd9d0e373b3c8572490ebb1
       size: 125642
     - path: listen_out/böm.xlsx
-      md5: fc5cac249658f3919bdc6f8cd3169576
+      md5: cdfd3a993ce7325e13dc116d89a34b5f
       size: 257000
     - path: listen_out/ii.xlsx
-      md5: 134f1cba52b23485b76ede2b4901c46f
-      size: 313229
+      md5: 178da8a3a4dc630a649da762008d5489
+      size: 313611
     - path: listen_out/iii.xlsx
-      md5: 6754ceef95638978632ce7c02a53061b
+      md5: fde971b8e7adea15a96190db8bd17ac5
       size: 489788
     - path: listen_out/iv.xlsx
-      md5: bd9d925a181cace9db9c95e7fa89e3b4
+      md5: 00d4160948ac35f32f9c494ca28753e5
       size: 2193586
     - path: listen_out/schreibmeister.xlsx
-      md5: 2d108585c005b17a8adb28a9fe47859d
+      md5: 398222bf4dc7da3e01f82d625daa10b8
       size: 144061
