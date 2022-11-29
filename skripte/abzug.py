@@ -345,9 +345,6 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
         inplace=True,
     )
 
-    # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts und bei verschiedenen String-Replacements weiter unten)
-    df.fillna("", inplace=True)
-
     # alle Datensätze, die nicht im CBS-Abzug waren, werden auf False gesetzt
     df.loc[df["idn"].isna(), "digi"] = False
 
@@ -356,6 +353,9 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
 
     # alle Datensätze, die Öffnungswinkel 0 haben, werden auf False gesetzt
     df.loc[df["max. Öffnungs-winkel"] == "0", "digi"] = False
+
+    # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts und bei verschiedenen String-Replacements weiter unten)
+    df.fillna("", inplace=True)
 
     # wenn der Restaurierungsaufwand größer als Null ist, wird das in der Spalte "Restaurierung" mit einem kleinen x markiert. Dazu wird der Datentyp vorher in eine Zahl konvertiert, bisher war es ein string.
     df["Rest.-\nAufwand gesamt\n(in Std.)"] = pd.to_numeric(
