@@ -18,9 +18,11 @@ Praktisch für die Notebooks aber nicht unbedingt notwendig:
 
 Mit diesem Repository werden aus dem monatlichen Gesamtabzug der DNB-Daten `DNBtitelundexemplare.dat.gz` pro Bestandsgruppe .csv & .xlsx-Dateien gebildet, welche die zu digitalisierenden Bestände im Projekt Virtuelle Rekonstruktion der DNB-Buchsammlungen enthalten.
 
+Dieser CBS-Abzug wird mit den aktuellen Projekt-Excel-Listen abgeglichen. Dabei werden ion der Zwischenzeit neu angelegte Datensätze aufgenommen und Datensätze, die z. B. nun in 4105 mit eine Qd-Satz verknüpft sind, werden herausgenommen.
+
 Die Data-Pipeline wird mit dem Tool `dvc` erstellt. Dieses Tool ruft in mehreren voneinander abhängigen Stages verschiedene Skripte auf, die die finalen Dateien produzieren.
 
-Mit `dvc repro` wird die Pipeline gestartet. Es werden nur solche Schritte neu gerechnet, für die sich entweder der Programmcode oder die abhängigen Daten geändert haben.
+Mit `poetry run dvc repro` wird die Pipeline gestartet. Es werden nur solche Schritte neu gerechnet, für die sich entweder der Programmcode oder die abhängigen Daten geändert haben.
 
 Die Rohdaten (Gesamtabzug und Teilabzug mit DBSM-Daten) werden nicht nach Github commitet. Der Pfad zum Gesamtabzug wird in der Datei `dvc.yaml` konfiguriert.
 
@@ -39,3 +41,7 @@ Die Notebooks in `notebooks` werden mit `dvc repro` nicht ausgeführt. Sie diene
 ## einzelne IDNs vom Projekt ausschließen
 
 Im Stammverzeichnis des Projektes liegt die Datei `blacklist.txt` Alle dort enthaltenen IDNs werden automatisch aus dem Projekt entfernt.
+
+## Datensätze auf alle Fälle in das Projekt aufnehmen (Whitelisten)
+
+In den Projekt-Excel-Dateien gibt es eine Spalte Whitelist. Wenn dort eine Markierung ist (egal welche, es wird nur getestet, on die Spalte belegt ist.), wird der Datensatz immer auf True gesetzt.

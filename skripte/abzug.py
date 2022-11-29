@@ -123,6 +123,9 @@ def get_exemplare(datei: str) -> pd.DataFrame:
 
 
 def get_titel(datei: str) -> pd.DataFrame:
+    """
+    Auslesen der Titeldaten aus den CVS-Listen. Dabei werden die Stücktitel zusammengesetzt und das evtl. mehrfach vorhandene Feld 4243 zusammengezogen. Am Ende gibt es pro Titel nur noch einen Datensatz.
+    """
     df = pd.read_csv(f"{filter_path}/{datei}", low_memory=False, dtype="string")
     df["titel"] = df.tit_a.str.cat(df.tit_d, sep=" : ")
     df.loc[pd.notna(df.tit_Y), "titel"] = df.tit_Y
@@ -387,7 +390,7 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
         + '", "Portal")'
     )
 
-    # in die liste der zu schreibenden spalten werden alle aufgenommen, außer die des cbs-abzuges, deshaln wird die liste um die anzahl der spalten von abzug gekürzt
+    # in die liste der zu schreibenden spalten werden alle aufgenommen, außer die des cbs-abzuges, deshalb wird die liste um die anzahl der spalten von abzug gekürzt
     spaltenliste = list(df.columns)[: -abzug.shape[1]]
 
     # Das Tabellenblatt "Basis" wird aus der ursprünglichen Excel-Mappe gelöscht.
