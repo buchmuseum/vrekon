@@ -145,11 +145,11 @@ stages:
       md5: 92b40208da4b12b1debfeeb277622d4f
       size: 64503
     - path: listen_in/böm.xlsx
-      md5: 6655ccf8db2e5d9f6d8cc23746f6d898
-      size: 143028
+      md5: 0fb078978a20a7da2b942f0d9421554d
+      size: 140917
     - path: listen_in/ii.xlsx
-      md5: 0ddd45ecc6c9d0bd668df575c765c754
-      size: 151817
+      md5: 566fccda510f237256193094c4d75bb0
+      size: 148023
     - path: listen_in/iii.xlsx
       md5: f8b809816920a05d7d8c0fc026e4b431
       size: 229281
@@ -167,53 +167,53 @@ stages:
       md5: 8fc0de7b973cfe20061b05fa31f4f981
       size: 40034
     - path: abzug/böink.xlsx
-      md5: 92ebfc761218ad8e9b36f4d50030f861
+      md5: 5e7842a8d65b9f6719ee62e481451292
       size: 27891
     - path: abzug/böm.csv
       md5: 557f32042eab1e9d55c2f5309c1413c1
       size: 108295
     - path: abzug/böm.xlsx
-      md5: 6561d8c871e41a099dc12fac031c0130
-      size: 67122
+      md5: 41913e803c5785eded0bd7b4e889c440
+      size: 67123
     - path: abzug/ii.csv
       md5: 07afd951aeb527ddfedf5ac77d9abbda
       size: 96407
     - path: abzug/ii.xlsx
-      md5: 26f497015da0ac4bf3d99e729fc6927a
-      size: 61416
+      md5: 0fafbd951ce1b9ae1ec103a0b599c398
+      size: 61417
     - path: abzug/iii.csv
       md5: 35b3ac9c9ad62b759c305d4ebe20f9b7
       size: 242048
     - path: abzug/iii.xlsx
-      md5: 0bcf6243689b46e4a3cb80ce196b78d9
-      size: 139098
+      md5: c18b74e13cc998421fe177b3a4c014aa
+      size: 139099
     - path: abzug/iv.csv
       md5: 15ad8d9b85128557f2dfc90f810e0c2f
       size: 974040
     - path: abzug/iv.xlsx
-      md5: a91e5a124dd8f85cd15a0f8a895d17e0
+      md5: 69f127becd3982e18a74c08a68fdb591
       size: 491288
     - path: abzug/schreibmeister.csv
       md5: 361edd9d583af04078d0a685b49f7b3e
       size: 49896
     - path: abzug/schreibmeister.xlsx
-      md5: c82fa8896090ea5a554ae2c15d968b16
-      size: 32682
+      md5: 74cdbc55749d313b2d40736fa81e80cf
+      size: 32681
     - path: listen_out/böink.xlsx
-      md5: 415176687d45ee5e1f9f39d9da38c449
-      size: 123876
+      md5: 17d7ef3e64f7ddc6b7caecc508e303fb
+      size: 123880
     - path: listen_out/böm.xlsx
-      md5: 43f6e353167f8b941c68ffc526c4a2da
+      md5: 01ce9213e13f077ae1937234d996d000
       size: 255084
     - path: listen_out/ii.xlsx
-      md5: bc67c9f318ed70f5eab67ee74ac3460b
-      size: 311435
+      md5: 6617fad280b448e29c57f154fe5fdc40
+      size: 312080
     - path: listen_out/iii.xlsx
-      md5: 8be42b2b91a05106c4030e706a4ca337
-      size: 488080
+      md5: b840fd2f26705d8721e774972a4422b7
+      size: 488083
     - path: listen_out/iv.xlsx
-      md5: 4d319e533d04b816113a0a4d29c974b2
-      size: 2183927
+      md5: 3583684cfbbb1aa5aab6bb6327f71707
+      size: 2238088
     - path: listen_out/schreibmeister.xlsx
-      md5: b86fbbed8eed6fdd0c64cd20ad343002
-      size: 142222
+      md5: 9a4a45a1d0eb0693ad487d62ba91e3c8
+      size: 142227
