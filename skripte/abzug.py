@@ -127,7 +127,7 @@ def get_titel(datei: str) -> pd.DataFrame:
     Auslesen der Titeldaten aus den CVS-Listen. Dabei werden die Stücktitel zusammengesetzt und das evtl. mehrfach vorhandene Feld 4243 zusammengezogen. Am Ende gibt es pro Titel nur noch einen Datensatz.
     """
     df = pd.read_csv(f"{filter_path}/{datei}", low_memory=False, dtype="string")
-    df["titel"] = df.tit_a.str.cat(df.tit_d, sep=" : ")
+    df["titel"] = df.tit_a.str.cat(df.tit_d, sep=" : ", na_rep="")
     df.loc[pd.notna(df.tit_Y), "titel"] = df.tit_Y
     df.titel = df.titel.str.slice(0, 150)
 
@@ -324,12 +324,14 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
 
     # Schreiben der aktualisierten Daten des neuen Abzugs über die alten Daten
     df.loc[df["Signatur"].isna(), "Signatur"] = df.signatur_a_y
-    df.loc["bbg_x"] = df.bbg_y
-    df.loc["signatur_g_x"] = df.signatur_g_y
-    df.loc["signatur_a_x"] = df.signatur_a_y
-    df.loc["titel_x"] = df.titel_y
-    df.loc["stuecktitel_x"] = df.stuecktitel_y
-    df.loc["wert_x"] = df.wert_y
+    df.loc[df["IDN"].isna(), "IDN"] = df.idn
+    df.loc[df["AKZ"].isna(), "AKZ"] = df.akz
+    df.bbg_x = df.bbg_y
+    df.signatur_g_x = df.signatur_g_y
+    df.signatur_a_x = df.signatur_a_y
+    df.titel_x = df.titel_y
+    df.stuecktitel_x = df.stuecktitel_y
+    df.wert_x = df.wert_y
 
     # es gibt spalten, die in beiden tabellen vorkommen, beim mergen versieht pandas deshalb die spalten mit dem suffix _x für die linke tabelle (= die aktuelle gesamttabelle) bzw _y (= CBS-Abzug).
     df.rename(
@@ -352,6 +354,7 @@ def list_merge(abzug: pd.DataFrame, bestand: str):
     df.loc[(df["idn"].notna() | df["Whitelist"].notna()), "digi"] = True
 
     # alle Datensätze, die Öffnungswinkel 0 haben, werden auf False gesetzt
+    df["max. Öffnungs-winkel"] = df["max. Öffnungs-winkel"].astype("string")
     df.loc[df["max. Öffnungs-winkel"] == "0", "digi"] = False
 
     # Pandas <NA>-Wert werden durch einen leeren String ersetzt (gibt sonst Probleme beim Schreiben des Tabellenblatts und bei verschiedenen String-Replacements weiter unten)
@@ -424,7 +427,8 @@ def schreibmeister():
     titel.jahr = titel.jahr.str.replace("[\[\]]", "", regex=True)
 
     titel.fillna({"jahr": "0"}, inplace=True)
-    titel = titel.astype({"jahr": "int"})
+    # titel = titel.astype({"jahr": "int"})
+    titel["jahr"] = pd.to_numeric(titel["jahr"])
 
     df = titel.merge(exemplare, on="idn", how="right")
 
@@ -435,6 +439,18 @@ def schreibmeister():
 
     # Filtered f4105_9
     df = df[df["f4105_9"].isna()]
+
+    # df.to_excel("schreibmeister-bugfix.xlsx")
+    # Schreiben der aktualisierten Daten des neuen Abzugs über die alten Daten
+    # df.loc[df["Signatur"].isna(), "Signatur"] = df.signatur_a_y
+    # df.loc[df["IDN"].isna(), "IDN"] = df.idn
+    # df.loc[df["AKZ"].isna(), "AKZ"] = df.akz
+    # df.bbg_x = df.bbg_y
+    # df.signatur_g_x = df.signatur_g_y
+    # df.signatur_a_x = df.signatur_a_y
+    # df.titel_x = df.titel_y
+    # df.stuecktitel_x = df.stuecktitel_y
+    # df.wert_x = df.wert_y
 
     df = df.sort_values(
         by="signatur_a",
