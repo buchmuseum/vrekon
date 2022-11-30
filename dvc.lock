@@ -142,8 +142,8 @@ stages:
       md5: bccd9707ba3045d1030ff3fef485c8cc
       size: 40875
     - path: listen_in/böink.xlsx
-      md5: c3c102a804dcfc02c29e2b7555ed77f0
-      size: 65908
+      md5: 92b40208da4b12b1debfeeb277622d4f
+      size: 64503
     - path: listen_in/böm.xlsx
       md5: 6655ccf8db2e5d9f6d8cc23746f6d898
       size: 143028
@@ -151,14 +151,14 @@ stages:
       md5: 0ddd45ecc6c9d0bd668df575c765c754
       size: 151817
     - path: listen_in/iii.xlsx
-      md5: a02989054bd802b9962aea4a360060df
-      size: 234478
+      md5: f8b809816920a05d7d8c0fc026e4b431
+      size: 229281
     - path: listen_in/iv.xlsx
-      md5: 9b178506502f4ad5cd42418822c38640
-      size: 779265
+      md5: 002764ff65d9e24cc0a13877d819a3c3
+      size: 771127
     - path: listen_in/schreibmeister.xlsx
-      md5: 04135be7f10d56c749da1ebfc1138c4e
-      size: 102195
+      md5: ca431989379b7831fb7956c2bfd0dd58
+      size: 101291
     - path: skripte/abzug.py
       md5: 049fffbda84d22fb1d1bd00994decc7b
       size: 17995
