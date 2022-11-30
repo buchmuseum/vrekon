@@ -223,10 +223,16 @@ def filtern(df: pd.DataFrame, bestand: str) -> pd.DataFrame:
     df["jahr"] = pd.Series(dtype="str") if "jahr" not in df.columns else None
     df.jahr = df.jahr.str.replace("X", "0")
     df.fillna({"jahr": "0"}, inplace=True)
-    df = df.astype({"jahr": "int"})
+    df["jahr"] = pd.to_numeric(df["jahr"])
 
     if bestand == "iv":
         df = df[df["jahr"] <= 1785]
+
+    if bestand == "schreibmeister":
+        df.jahr = df.jahr.str.replace("[xX]", "0", regex=True)
+        df.jahr = df.jahr.str.replace("[\[\]]", "", regex=True)
+        df = df.replace("", np.NaN)
+        df = df[df["jahr"] <= 1830]
 
     # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
     df = df[~df.idn.isin(blacklist())]
@@ -427,30 +433,18 @@ def schreibmeister():
     titel.jahr = titel.jahr.str.replace("[\[\]]", "", regex=True)
 
     titel.fillna({"jahr": "0"}, inplace=True)
-    # titel = titel.astype({"jahr": "int"})
     titel["jahr"] = pd.to_numeric(titel["jahr"])
 
     df = titel.merge(exemplare, on="idn", how="right")
 
     df = df.replace("", np.NaN)
     df = df[df["jahr"] <= 1830]
+
     # idns aus der datei blacklist.txt im stammverzeichnis werden ausgefiltert
     df = df[~df.idn.isin(blacklist())]
 
     # Filtered f4105_9
     df = df[df["f4105_9"].isna()]
-
-    # df.to_excel("schreibmeister-bugfix.xlsx")
-    # Schreiben der aktualisierten Daten des neuen Abzugs über die alten Daten
-    # df.loc[df["Signatur"].isna(), "Signatur"] = df.signatur_a_y
-    # df.loc[df["IDN"].isna(), "IDN"] = df.idn
-    # df.loc[df["AKZ"].isna(), "AKZ"] = df.akz
-    # df.bbg_x = df.bbg_y
-    # df.signatur_g_x = df.signatur_g_y
-    # df.signatur_a_x = df.signatur_a_y
-    # df.titel_x = df.titel_y
-    # df.stuecktitel_x = df.stuecktitel_y
-    # df.wert_x = df.wert_y
 
     df = df.sort_values(
         by="signatur_a",
@@ -466,7 +460,13 @@ def schreibmeister():
 def main():
     # alle bestände aus dem Tuple bestaende werden geladen, gefiltert und die ergebnisse geschrieben
 
-    bestaende = ("böm", "böink", "ii", "iii", "iv")
+    bestaende = (
+        "böm",
+        "böink",
+        "ii",
+        "iii",
+        "iv",
+    )
 
     for bestand in bestaende:
 
