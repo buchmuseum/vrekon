@@ -38,3 +38,8 @@
 012645699 # Acta Eruditorum,  IV 205, 45 b
 997238208 # Omnium operum Divi Eusebii Hieronymi ..., 7., III 6, 12
 997238526 # Omnium operum Divi Eusebii Hieronymi ..., 9., III 6, 12
+1274845955 # Wöchentliche Wappenbelustigung, Band 1, IV 273, 31
+012673455 # Deutsche Acta eruditorum oder Geschichte der Gelehrten..., IV 205, 7 x
+012673463 # Zuverlässige Nachrichten von dem gegenwärtigen Zustande..., IV 205, 8 i
+011244542 # Bibliothek der schönen Wissenschaften und der freyen Künste, IV 205, 32 b 
+019775253 # Sammlung interessanter und durchgängig zweckmäßig abgefaßter Reisebeschreibungen für die Jugend, IV 48, 9 c
