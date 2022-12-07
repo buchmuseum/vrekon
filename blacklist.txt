@@ -1,14 +1,15 @@
 # Pro Zeile eine IDN, keine Kommas, keine Anführungszeichen etc. IDNs in dieser Liste werden nicht in das Projekt aufgenommen.
-1003856543
-1064781187
-997383259
-994726791
-997309466
-1066785597
-1066869103
-1100197079
-1132656737 # kommentare können auch hinter einer idn stehen
-1132656745
+# kommentare können auch hinter einer idn stehen 
+1003856543 #  In Turcos potius qz. gentez christicola Bö M 214
+1064781187 # Sammelband mit Bibel, Handschrift und angebundener Inkunabel II 30,1u
+997383259 # Hortulus animae to dude III 51, 7
+994726791 # Oeuvres de Destouches, 1., IV 8, 28
+997309466 # Abraham, de aartsvader, IV 332, 3
+1066785597 # Clementina, IV 8, 20
+1066869103 # Heinrichs von Alkmar Reineke der Fuchs, IV 205, 9
+1100197079 # Description Du Cap De Bonne-Esperance, Tome 1, IV 8, 83 - 1
+1132656737 # Mémoires pour servir à l' histoire de la maison de Brandebourg, Pt. 1., IV 33, 8
+1132656745 # Mémoires pour servir à l' histoire de la maison de Brandebourg, Pt. 2., IV 33, 8
 455169462 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
 455169322 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
 455169314 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
@@ -34,6 +35,6 @@
 1002995671 # Oeuvres complètes de [François Marie Arouet] Voltaire
 1002993903 # Oeuvres complètes de [François Marie Arouet] Voltaire
 1002993873 # Oeuvres complètes de [François Marie Arouet] Voltaire
-012645699 # 
-997238208
-997238526
+012645699 # Acta Eruditorum,  IV 205, 45 b
+997238208 # Omnium operum Divi Eusebii Hieronymi ..., 7., III 6, 12
+997238526 # Omnium operum Divi Eusebii Hieronymi ..., 9., III 6, 12
