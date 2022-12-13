@@ -43,3 +43,6 @@
 012673463 # Zuverlässige Nachrichten von dem gegenwärtigen Zustande..., IV 205, 8 i
 011244542 # Bibliothek der schönen Wissenschaften und der freyen Künste, IV 205, 32 b 
 019775253 # Sammlung interessanter und durchgängig zweckmäßig abgefaßter Reisebeschreibungen für die Jugend, IV 48, 9 c
+1263521517 # Allergnädigst privilegirtes Leipziger Intelligenz-Blatt, 1773, IV 205, 51
+1263521681 # Allergnädigst privilegirtes Leipziger Intelligenz-Blatt, 1768, IV 205, 51
+99904267X # Das privilegirte ordentliche und vermehrte Dresdnische Gesang-Buch, IV 90, 34a
