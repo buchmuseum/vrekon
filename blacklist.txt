@@ -50,3 +50,9 @@
 011961449 # Vorwärts : Volkstaschenbuch für das Jahr Bö M 196/8
 1141698420 # Aufgelöster Sammelband Bö M 375
 1066941572 # Konvolut von Inkunabel- und Postinkunabelblättern,  II 90,1a
+1066969051 # Summa super titulis Decretalium II 2,7a
+1066971110 # Postilla super totam Bibliam II 24,3f
+1066964912 # Biblia, lat. II 24,3q
+1066973040 # Speculum historiale II 30,1a
+1066972206 # Sermones de tempore et de sanctis II 32,1f
+1066968004 # Speculum iudiciale Bö Ink 58
