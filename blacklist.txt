@@ -16,6 +16,7 @@
 455169195 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
 455169187 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
 455168784 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
+455168873 # Grosses vollständiges Universal-Lexicon aller Wissenschaften und Künste IV 205, 76
 1066779112 # Collectiones peregrinationum in Indiam IV 114, 15
 1066858535 # Collectiones peregrinationum in Indiam IV 114, 15
 1066796343 # Collectiones peregrinationum in Indiam IV 114, 15
@@ -32,9 +33,6 @@
 1128100681 # Theatrum Europaeum IV 114, 13a
 012729078 # Theatrum Europaeum IV 114, 13a
 016698827 # Theatrum Europaeum IV 114, 13a
-1002995671 # Oeuvres complètes de [François Marie Arouet] Voltaire
-1002993903 # Oeuvres complètes de [François Marie Arouet] Voltaire
-1002993873 # Oeuvres complètes de [François Marie Arouet] Voltaire
 012645699 # Acta Eruditorum,  IV 205, 45 b
 1274845955 # Wöchentliche Wappenbelustigung, Band 1, IV 273, 31
 012673455 # Deutsche Acta eruditorum oder Geschichte der Gelehrten..., IV 205, 7 x
@@ -384,9 +382,6 @@
 996357602 # EJ 1787; IV 167, 3
 1001172140 # EJ 1788; IV 167, 3b
 1271824094 # EJ 1836; IV 167, 4
-1002993903 # EJ 1808; 
-1002993873 # EJ 1808; 
-127271604X # EJ 1789; IV 170 a, 1 - 92
 1132654858 # EJ 1789; IV 170 a, 2
 1132654866 # EJ 1789; IV 170 a, 2
 999725084 # EJ 1800; IV 172, 3
