@@ -10,12 +10,12 @@ stages:
       raw/DNBtitelundexemplare.dat.gz -o dump/dbsm-titel-exemplare.dat.gz
     deps:
     - path: raw/DNBtitelundexemplare.dat.gz
-      md5: be6a804592559f196319249a1466928f
-      size: 7614212278
+      md5: 0de14caf6cdd65e5b0204622eec8ce0f
+      size: 7796659724
     outs:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: 98d25357a08316e5d75ba55a61793d48
-      size: 126733368
+      md5: 3913b003cf5295ace5bcbebdf6adf5cc
+      size: 127925990
   filter:
     cmd:
     - pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe
@@ -23,197 +23,199 @@ stages:
       nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a,f4256,f4243,f4241,f4105_9,f4105_g"
       -o filter/böm-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'Bö
-      M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" dump/dbsm-titel-exemplare.dat.gz
-      | pica print --translit nfc -o filter/böm-exemplare.dat
+    - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a
+      =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe
+      M'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/böm-exemplare.dat
     - pica filter "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz
       | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g"
       -o filter/böink-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'Bö
-      Ink' || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz | pica print
-      --translit nfc -o filter/böink-exemplare.dat
+    - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a
+      =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" dump/dbsm-titel-exemplare.dat.gz | pica
+      print --translit nfc -o filter/böink-exemplare.dat
     - pica filter "209A/*.a =~ '^II[\\\s\\\d]'" dump/dbsm-titel-exemplare.dat.gz |
       pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g"
       -o filter/ii-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =~ '^II[\\\s\\\d]'"
-      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/ii-exemplare.dat
+    - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a
+      =~ '^II[\\\s\\\d]'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit
+      nfc -o filter/ii-exemplare.dat
     - pica filter "209A/*.a =^ 'III' || 209A/*.g =^ 'III'" dump/dbsm-titel-exemplare.dat.gz
       | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g"
       -o filter/iii-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'III'"
-      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/iii-exemplare.dat
+    - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a
+      =^ 'III'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/iii-exemplare.dat
     - pica filter "209A/*.a =^ 'IV' || 209A/*.g =^ 'IV'" dump/dbsm-titel-exemplare.dat.gz
       | pica select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,jahr,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g"
       -o filter/iv-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "209A/*.a =^ 'IV'"
-      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/iv-exemplare.dat
+    - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a
+      =^ 'IV'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/iv-exemplare.dat
     - pica filter "044P/*.9 == '041799844'" dump/dbsm-titel-exemplare.dat.gz | pica
       select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039D.9,039I.9,039B.9,036H{9,g}"
       -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g"
       -o filter/schreibmeister-titel.csv
-    - pica filter --reduce "003@,209A,209C,247C,237A,101@,220C" "044P/*.9 == '041799844'"
-      dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o filter/schreibmeister-exemplare.dat
+    - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "044P/*.9
+      == '041799844'" dump/dbsm-titel-exemplare.dat.gz | pica print --translit nfc
+      -o filter/schreibmeister-exemplare.dat
     deps:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: 98d25357a08316e5d75ba55a61793d48
-      size: 126733368
+      md5: 3913b003cf5295ace5bcbebdf6adf5cc
+      size: 127925990
     outs:
     - path: filter/böink-exemplare.dat
       md5: e5a10e323b753d7d8a70e3bc4b45feab
       size: 48843
     - path: filter/böink-titel.csv
-      md5: e2f4100b10dca7aaf0ae0321acad3df5
-      size: 19208
+      md5: 707e4308a2e48466921974522c143230
+      size: 19497
     - path: filter/böm-exemplare.dat
-      md5: d1de1e590b611118c40382b0087f7797
-      size: 131735
+      md5: 6f3739dd38b9b8cf47c85a89ad952554
+      size: 131617
     - path: filter/böm-titel.csv
-      md5: a74557082d0dda1a71a6dd1470696000
-      size: 126580
+      md5: 2ea04759a1bb4839ab683a292400e381
+      size: 126574
     - path: filter/ii-exemplare.dat
-      md5: 3d37c8415be8e11a3920897236b22a9b
-      size: 9456870
+      md5: d2fc30d0697fac4114f1c22ff541df9d
+      size: 9465141
     - path: filter/ii-titel.csv
-      md5: 42686b32e50d48146698268593fa3ce0
-      size: 108248
+      md5: 90f185f1f67201e948f8a5c46a1c2fd7
+      size: 108577
     - path: filter/iii-exemplare.dat
-      md5: fcfd1052cc09e7b28f072fabde0938eb
-      size: 4012474
+      md5: a42bb4c4f4e4f6acf616e9a82ba65212
+      size: 4010156
     - path: filter/iii-titel.csv
-      md5: ca1eddeb39069b76a63d58dabbfd4473
-      size: 300750
+      md5: f3a0f99f2d3e35038573c46c58707150
+      size: 302432
     - path: filter/iv-exemplare.dat
-      md5: 373ac5fad4e847baac3c121a26ae791c
-      size: 4217312
+      md5: ed1a683b31b076f6cae102527e4af7f8
+      size: 4215031
     - path: filter/iv-titel.csv
-      md5: d1c6133c9ef85e81ed7f022bbe7ebd89
-      size: 1016354
+      md5: f7661b38509591e512b47140236430bf
+      size: 1016057
     - path: filter/schreibmeister-exemplare.dat
-      md5: 15b9aaff4a2bb8b82ce3e16cea5883ac
-      size: 41753
+      md5: 5a08ec5a121ce9da6cb91217d2036868
+      size: 42238
     - path: filter/schreibmeister-titel.csv
-      md5: d11930310606b8952c03f39de8e402a5
-      size: 46221
+      md5: 9949f2b27b6d6b5f3824c678e7646bfa
+      size: 47033
   abzug:
     cmd:
     - python ./skripte/abzug.py
     deps:
     - path: blacklist.txt
-      md5: 65a21fd7dc69f1b42f9dbefeaee02de1
-      size: 37187
+      md5: 7a745c27820b3745cf7e756596c70cb1
+      size: 36856
     - path: filter/böink-exemplare.dat
       md5: e5a10e323b753d7d8a70e3bc4b45feab
       size: 48843
     - path: filter/böink-titel.csv
-      md5: e2f4100b10dca7aaf0ae0321acad3df5
-      size: 19208
+      md5: 707e4308a2e48466921974522c143230
+      size: 19497
     - path: filter/böm-exemplare.dat
-      md5: d1de1e590b611118c40382b0087f7797
-      size: 131735
+      md5: 6f3739dd38b9b8cf47c85a89ad952554
+      size: 131617
     - path: filter/böm-titel.csv
-      md5: a74557082d0dda1a71a6dd1470696000
-      size: 126580
+      md5: 2ea04759a1bb4839ab683a292400e381
+      size: 126574
     - path: filter/ii-exemplare.dat
-      md5: 3d37c8415be8e11a3920897236b22a9b
-      size: 9456870
+      md5: d2fc30d0697fac4114f1c22ff541df9d
+      size: 9465141
     - path: filter/ii-titel.csv
-      md5: 42686b32e50d48146698268593fa3ce0
-      size: 108248
+      md5: 90f185f1f67201e948f8a5c46a1c2fd7
+      size: 108577
     - path: filter/iii-exemplare.dat
-      md5: fcfd1052cc09e7b28f072fabde0938eb
-      size: 4012474
+      md5: a42bb4c4f4e4f6acf616e9a82ba65212
+      size: 4010156
     - path: filter/iii-titel.csv
-      md5: ca1eddeb39069b76a63d58dabbfd4473
-      size: 300750
+      md5: f3a0f99f2d3e35038573c46c58707150
+      size: 302432
     - path: filter/iv-exemplare.dat
-      md5: 373ac5fad4e847baac3c121a26ae791c
-      size: 4217312
+      md5: ed1a683b31b076f6cae102527e4af7f8
+      size: 4215031
     - path: filter/iv-titel.csv
-      md5: d1c6133c9ef85e81ed7f022bbe7ebd89
-      size: 1016354
+      md5: f7661b38509591e512b47140236430bf
+      size: 1016057
     - path: filter/schreibmeister-exemplare.dat
-      md5: 15b9aaff4a2bb8b82ce3e16cea5883ac
-      size: 41753
+      md5: 5a08ec5a121ce9da6cb91217d2036868
+      size: 42238
     - path: filter/schreibmeister-titel.csv
-      md5: d11930310606b8952c03f39de8e402a5
-      size: 46221
+      md5: 9949f2b27b6d6b5f3824c678e7646bfa
+      size: 47033
     - path: listen_in/böink.xlsx
-      md5: bc8a087c97ef6d4cfaf1738ab601177d
-      size: 73135
+      md5: a0d845db5109746663bc7b6b82e139a0
+      size: 71503
     - path: listen_in/böm.xlsx
-      md5: f63e0e36ca4cf47cb046472871ebf15b
-      size: 149700
+      md5: 0debb13553937b0800df8fb5dc36a585
+      size: 151770
     - path: listen_in/ii.xlsx
-      md5: 3aec5a4bd41e77eac34ec9a1dfc65564
-      size: 156122
+      md5: 7c9a15d673f4a90e4330e1aef835b3bf
+      size: 155638
     - path: listen_in/iii.xlsx
-      md5: 10d43cfbdf9c5f19c34f8243a8186a56
-      size: 240220
+      md5: 75738bd944228807f8d7ac069dd58325
+      size: 242036
     - path: listen_in/iv.xlsx
-      md5: 9a7ba8b1c3358d11f39cf0963b07c1bd
-      size: 808084
+      md5: 1144d712f25aa3d152dec7f02b029ff5
+      size: 807318
     - path: listen_in/schreibmeister.xlsx
-      md5: 59eb24bae79605878f33ced07b55ab3e
-      size: 110591
+      md5: b3431595b70a9412f74efddd9ededce3
+      size: 115564
     - path: skripte/abzug.py
       md5: 824d7bcd2b46df6b88143c37071a0d71
       size: 17747
     outs:
     - path: abzug/böink.csv
-      md5: c631b01361dabf61c4b3b968f7220520
-      size: 40377
+      md5: cecb064673d2bf88e0fd020c7514a44e
+      size: 39227
     - path: abzug/böink.xlsx
-      md5: 89a8e6bc62cd9f1cf50083742311152f
-      size: 28061
+      md5: 7e464e1359c13d7759c6051279ffd8e7
+      size: 27517
     - path: abzug/böm.csv
-      md5: 371ed7dcb44fb25cbf6f3673e0c25d02
-      size: 108117
+      md5: dc273a1625ac28dade1230b2e4166aa3
+      size: 105246
     - path: abzug/böm.xlsx
-      md5: 19c3c4a3146d1e3f7f75834db4741037
-      size: 66888
+      md5: a905b3250a8d71ec6f081d9926dac5c7
+      size: 65207
     - path: abzug/ii.csv
-      md5: 8b0ad8a90d70fcf62b4c39d0293f37d9
-      size: 96218
+      md5: 809ead2dbd3592700e0a130928f1eb9e
+      size: 95971
     - path: abzug/ii.xlsx
-      md5: bcb762a0714e44a896d35d7fd484ac48
-      size: 61366
+      md5: 4f05a266fdcc8029973d992156b9703c
+      size: 61235
     - path: abzug/iii.csv
-      md5: fc79128005abdbc4e5bcdfb1efa06256
-      size: 243279
+      md5: b1d19dfc1b994a5604a0f1cd3b44edca
+      size: 212363
     - path: abzug/iii.xlsx
-      md5: f0372a23c369ed3e8f1a9a224b3d2cab
-      size: 139995
+      md5: 548ac4283c2c2813672e9dfde44750cd
+      size: 123590
     - path: abzug/iv.csv
-      md5: bc484a0c53db2510b034a0ad69c75b43
-      size: 824864
+      md5: fd13991be1ffe33adec69f78539b1f60
+      size: 824067
     - path: abzug/iv.xlsx
-      md5: 5b4ddb6bdbea7d6c37abc5a91ef44efc
-      size: 424197
+      md5: 1f977b925dfd5ddbfa23c1b9f1711de8
+      size: 423474
     - path: abzug/schreibmeister.csv
-      md5: 345b1890ac1151ce9a8184e9c74ab9dd
-      size: 51876
+      md5: 095ad2c8867dab474f5b56cf1a11f9ee
+      size: 52848
     - path: abzug/schreibmeister.xlsx
-      md5: 9af735ca279562cc2422b9ae4fe05c89
-      size: 33287
+      md5: fce21e5c62ba55accdf72297d18bf569
+      size: 33676
     - path: listen_out/böink.xlsx
-      md5: 474d0a7b45e60a1477718c659f917f9b
-      size: 138843
+      md5: ecc3f24a425cc6a5215142dbecd7a03b
+      size: 138933
     - path: listen_out/böm.xlsx
-      md5: 834e1a25b1e57b6b410bedf29c8234aa
-      size: 277921
+      md5: a19cab6759e8d17d41b044e922c0c9da
+      size: 276790
     - path: listen_out/ii.xlsx
-      md5: c1cc99cba40dda59279c07609aafcdd5
-      size: 342969
+      md5: 22c225cf6dbeb4306dfbd968f7eda893
+      size: 343046
     - path: listen_out/iii.xlsx
-      md5: 0fa4120b2c7ca6abb6c1508f782f0ae1
-      size: 542100
+      md5: 6fd08499d7c17c1554ef45e15a053b37
+      size: 533907
     - path: listen_out/iv.xlsx
-      md5: 5c5bcff9962d28582e09aefaafbdac25
-      size: 2368085
+      md5: 8d650e9a65a4c6f54b77a56b5f26fdd0
+      size: 2383089
     - path: listen_out/schreibmeister.xlsx
-      md5: 971abbb1b8d60965a680236bed05f4a9
-      size: 159501
+      md5: 30b7f275e1491c3d7d2575180d00e220
+      size: 163775
