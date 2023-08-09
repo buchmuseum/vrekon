@@ -64,6 +64,10 @@
 1001874102 # Der getreue|| Schreibemeister||, Cb 210
 1066942021 # Wie das Haupt ist, sollen billich auch die Glieder seyn, I, 229
 1196912882 # Schreibmeisterbuch, unsigniert
+1138309168 # Sammelband mit drei Werken von Martin Luther, III 104, 6
+1138379727 # Taschenbuch der sächsischen Geschichte, IV 90, 42
+1066957827 # Cosmographey, IV 27, 6
+025045466 # EJ 1791-1792; IV 90, 42
 1002398029 # EJ 1796; IV 6, 7
 997309199 # EJ 1793; IV 6, 7 a
 997309148 # EJ 1793; IV 6, 7 a
