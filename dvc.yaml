@@ -40,31 +40,35 @@ stages:
 
       # Das ö (Umlaut o) ist hier Unicode decomposed, d.h. ein Druck auf die Taste Ö auf der Tastatur produziert nicht das Zeichen, das im Filterausdruck steht. Hängt damit zusammen, dass der Dump in dieser Codierung geliefert wird. Bei den ausgegebenen Daten in der csv bzw dat ist das kein Problem, weil das mit der Option --translit nfc in Unicode-Normalform überführt wird. D.h. in allen weiteren Schritten können die normalen, über die Tastatur erreichbaren Umlaute genutzt werden. Dürfte nur hier beim Ö relevant sein.
 
+      # Im Titeldurchlauf wurde der select-Befehl durch ein --merge ergänzt. Damit werden wiederholte Felder in der Ausgabe in ein Feld zusammengefasst, getrennt durch den Separator |. Die Bedingung 021A{Y | Y?} wurde an die pica-Version 0.20.0 angepasst
+
+      # Im Exemplardurchlauf werden 209A $x ungleich 00 mittels sed rausgefiltert. Die Felder werden wegen der pica-Version 0.20.0 jetzt mit keep selektiert
+
       # Wenn der Filterausdruck im Titeldurchgang geändert wird, muss er auch im Exemplarlauf geändert werden.
 
-      - pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a,f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/böm-titel.csv
+      - pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --merge --translit nfc "003@.0,002@.0,021A{a,d},021A{Y | Y?},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a,f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/böm-titel.csv
       
-      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/böm-exemplare.dat
+      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe M' || 209A/*.g =^ 'Boe M'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc | sed '/^209A.*\$x 0[1-8]/d' > ${filter_path}/böm-exemplare.dat
 
-      - pica filter "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/böink-titel.csv
+      - pica filter "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --merge --translit nfc "003@.0,002@.0,021A{a,d},021A{Y | Y?},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/böink-titel.csv
       
-      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/böink-exemplare.dat
+      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'Bö Ink' || 209A/*.g =^ 'Bö Ink'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc | sed '/^209A.*\$x 0[1-8]/d' > ${filter_path}/böink-exemplare.dat
 
-      - pica filter "209A/*.a =~ '^II[\\\s\\\d]'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/ii-titel.csv
+      - pica filter "209A/*.a =~ '^II[\\\s\\\d]'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --merge --translit nfc "003@.0,002@.0,021A{a,d},021A{Y | Y?},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/ii-titel.csv
       
-      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =~ '^II[\\\s\\\d]'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/ii-exemplare.dat
+      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =~ '^II[\\\s\\\d]'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc | sed '/^209A.*\$x 0[1-8]/d' > ${filter_path}/ii-exemplare.dat
 
-      - pica filter "209A/*.a =^ 'III' || 209A/*.g =^ 'III'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/iii-titel.csv
+      - pica filter "209A/*.a =^ 'III' || 209A/*.g =^ 'III'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --merge --translit nfc "003@.0,002@.0,021A{a,d},021A{Y | Y?},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/iii-titel.csv
       
-      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'III'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/iii-exemplare.dat
+      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*{a =^ 'III' && x == '00'}" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc | sed '/^209A.*\$x 0[1-8]/d' > ${filter_path}/iii-exemplare.dat
 
-      - pica filter "209A/*.a =^ 'IV' || 209A/*.g =^ 'IV'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,jahr,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/iv-titel.csv
+      - pica filter "209A/*.a =^ 'IV' || 209A/*.g =^ 'IV'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --merge --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y | Y?},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,jahr,tit_a, tit_d, tit_Y, umfang, stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/iv-titel.csv
       
-      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'IV'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/iv-exemplare.dat
+      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "209A/*.a =^ 'IV'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc | sed '/^209A.*\$x 0[1-8]/d' > ${filter_path}/iv-exemplare.dat
 
-      - pica filter "044P/*.9 == '041799844'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y?,Y},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/schreibmeister-titel.csv
+      - pica filter "044P/*.9 == '041799844'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica select --merge --translit nfc "003@.0,002@.0,011@.a,021A{a,d},021A{Y | Y?},034D.a,021B{l,a},039I.9,039D.9,039B.9,036H{9,g}" -H "idn,bbg,jahr,tit_a, tit_d, tit_Y,umfang,stuecktitel_l,stuecktitel_a, f4256,f4243,f4241,f4105_9,f4105_g" -o ${filter_path}/schreibmeister-titel.csv
 
-      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "044P/*.9 == '041799844'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc -o ${filter_path}/schreibmeister-exemplare.dat
+      - pica filter --keep "003@,209A/*,209C/*,247C/*,237A/*,101@/*,220C/*" "044P/*.9 == '041799844'" ${dump_path}/dbsm-titel-exemplare.dat.gz | pica print --translit nfc | sed '/^209A.*\$x 0[1-8]/d' > ${filter_path}/schreibmeister-exemplare.dat
 
     deps:
       - ${dump_path}/dbsm-titel-exemplare.dat.gz
