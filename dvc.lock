@@ -10,12 +10,12 @@ stages:
       raw/DNBtitelundexemplare.dat.gz -o dump/dbsm-titel-exemplare.dat.gz
     deps:
     - path: raw/DNBtitelundexemplare.dat.gz
-      md5: 815dfbdcb5596f60200decce49b94212
-      size: 8396533218
+      md5: fdab04b9ecda6f1852a7de99b8390b96
+      size: 8497508379
     outs:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: 0d4b8f5c60367f36c22a5f7ff57a5f5f
-      size: 131250622
+      md5: 3f43b678ea998ed6a816404e3107c895
+      size: 133024606
   filter:
     cmd:
     - pica filter "209A/*.a =^ 'Bö M' || 209A/*.g =^ 'Bö M' || 209A/*.a =^ 'Boe
@@ -65,8 +65,8 @@ stages:
       | sed '/^209A.*\$x 0[1-8]/d' > filter/schreibmeister-exemplare.dat
     deps:
     - path: dump/dbsm-titel-exemplare.dat.gz
-      md5: 0d4b8f5c60367f36c22a5f7ff57a5f5f
-      size: 131250622
+      md5: 3f43b678ea998ed6a816404e3107c895
+      size: 133024606
     outs:
     - path: filter/böink-exemplare.dat
       md5: 2acc4e0328c7251009eb61a4f98c2b58
@@ -78,39 +78,39 @@ stages:
       md5: ce36d9bfac3bd9aa4e6d59c0e99c943e
       size: 145370
     - path: filter/böm-titel.csv
-      md5: 9d046bb6040669df8817f813df3e8d9a
-      size: 126142
+      md5: 9a347ea8adbdcf64ae4146971405a1f4
+      size: 126184
     - path: filter/ii-exemplare.dat
-      md5: 6ab3592191c528deeb2bc360d36453d2
-      size: 10990636
+      md5: 5d7afd43e0c3335417dda58048c3bfe1
+      size: 10994035
     - path: filter/ii-titel.csv
       md5: 685aaedce6660c1cbd807d23df953261
       size: 100835
     - path: filter/iii-exemplare.dat
-      md5: fde839af9bafac28548dba956c1f501a
-      size: 4736370
+      md5: e9a0ed95b35c2bdbe758239dc3a85c6c
+      size: 4737414
     - path: filter/iii-titel.csv
-      md5: ec86eba12119eac197ac031f331c5035
-      size: 298390
+      md5: 6afdba346b7b21abef2f3c8979cab446
+      size: 301346
     - path: filter/iv-exemplare.dat
-      md5: 192ed7256f81da788e8584c22ae9a823
-      size: 4860147
+      md5: 4b3b304868dd8535b843e3aea1df3ef2
+      size: 4883282
     - path: filter/iv-titel.csv
-      md5: 1b152639c8de6c32a84dfc4abaf90d6a
-      size: 995999
+      md5: 8805c4dd9e222b09ee3c09e5dfb6c8c1
+      size: 996823
     - path: filter/schreibmeister-exemplare.dat
-      md5: a927cc672c7cd5edb05eac7666edd0a5
-      size: 48671
+      md5: 1107d8b67970e68309925f36c99ec0dd
+      size: 48638
     - path: filter/schreibmeister-titel.csv
-      md5: 755177c2b5ad0cb3aa8d1e4859b81b2f
-      size: 47789
+      md5: b28124181b911371ed205b34facfc300
+      size: 48316
   abzug:
     cmd:
     - python ./skripte/abzug.py
     deps:
     - path: blacklist.txt
-      md5: 844caabc11e0a692c02375e65e0bb9e6
-      size: 37846
+      md5: 52e6daa6b05693bf46dc4090b15bdb1c
+      size: 37769
     - path: filter/böink-exemplare.dat
       md5: 2acc4e0328c7251009eb61a4f98c2b58
       size: 52947
@@ -121,50 +121,50 @@ stages:
       md5: ce36d9bfac3bd9aa4e6d59c0e99c943e
       size: 145370
     - path: filter/böm-titel.csv
-      md5: 9d046bb6040669df8817f813df3e8d9a
-      size: 126142
+      md5: 9a347ea8adbdcf64ae4146971405a1f4
+      size: 126184
     - path: filter/ii-exemplare.dat
-      md5: 6ab3592191c528deeb2bc360d36453d2
-      size: 10990636
+      md5: 5d7afd43e0c3335417dda58048c3bfe1
+      size: 10994035
     - path: filter/ii-titel.csv
       md5: 685aaedce6660c1cbd807d23df953261
       size: 100835
     - path: filter/iii-exemplare.dat
-      md5: fde839af9bafac28548dba956c1f501a
-      size: 4736370
+      md5: e9a0ed95b35c2bdbe758239dc3a85c6c
+      size: 4737414
     - path: filter/iii-titel.csv
-      md5: ec86eba12119eac197ac031f331c5035
-      size: 298390
+      md5: 6afdba346b7b21abef2f3c8979cab446
+      size: 301346
     - path: filter/iv-exemplare.dat
-      md5: 192ed7256f81da788e8584c22ae9a823
-      size: 4860147
+      md5: 4b3b304868dd8535b843e3aea1df3ef2
+      size: 4883282
     - path: filter/iv-titel.csv
-      md5: 1b152639c8de6c32a84dfc4abaf90d6a
-      size: 995999
+      md5: 8805c4dd9e222b09ee3c09e5dfb6c8c1
+      size: 996823
     - path: filter/schreibmeister-exemplare.dat
-      md5: a927cc672c7cd5edb05eac7666edd0a5
-      size: 48671
+      md5: 1107d8b67970e68309925f36c99ec0dd
+      size: 48638
     - path: filter/schreibmeister-titel.csv
-      md5: 755177c2b5ad0cb3aa8d1e4859b81b2f
-      size: 47789
+      md5: b28124181b911371ed205b34facfc300
+      size: 48316
     - path: listen_in/böink.xlsx
-      md5: 58880eb67fb98d0e12863688fe38c588
-      size: 71785
+      md5: 9b94cd3ed61d6f0d643cb707ac8ac88a
+      size: 73138
     - path: listen_in/böm.xlsx
-      md5: e1bfa75386ec6e49f6634215084ce820
-      size: 150514
+      md5: d47476361021475f147dc8b5260a1869
+      size: 152069
     - path: listen_in/ii.xlsx
-      md5: 55766efc4f34154ae67ab26d4dea02ec
-      size: 155868
+      md5: c0177ca26827726dd112e962a5c454f9
+      size: 158589
     - path: listen_in/iii.xlsx
-      md5: 9651ce8ac646e291e70557330754a9b0
-      size: 247836
+      md5: 1f3ae64bd9f38ce17ef25b5d144fd91f
+      size: 265248
     - path: listen_in/iv.xlsx
-      md5: cecb9e40bc924f325169719253fffb2d
-      size: 793947
+      md5: fad63467b6bca68c269bc6967e5d8634
+      size: 770689
     - path: listen_in/schreibmeister.xlsx
-      md5: c9ca48d483b6243f64dfd82b5cb7fd18
-      size: 117307
+      md5: 768853f8124c61736e79428aae7c92a9
+      size: 119907
     - path: skripte/abzug.py
       md5: 824d7bcd2b46df6b88143c37071a0d71
       size: 17747
@@ -173,53 +173,53 @@ stages:
       md5: 049378da0cb3e57260cb9988a9afc472
       size: 40536
     - path: abzug/böink.xlsx
-      md5: 23a2774ad8fdd1ca53d1711f4c2061b6
-      size: 28191
+      md5: 7a8a66d89a5d0de93cf2de1b7016fcdf
+      size: 28192
     - path: abzug/böm.csv
-      md5: a26189a5c21950cbe82043b747821824
-      size: 108396
+      md5: 0ed6f13b2c84fc6ed992f47684ff4b23
+      size: 108438
     - path: abzug/böm.xlsx
-      md5: 5925018776f4e5dc707b46c490334207
-      size: 67164
+      md5: aeae899545460789eb249f617a6dba9a
+      size: 67215
     - path: abzug/ii.csv
       md5: 756b8795e55f6fc6e157a56b9ad97cf5
       size: 96369
     - path: abzug/ii.xlsx
-      md5: ccf4253cb6a0f2cc09edbcef6f261720
+      md5: dc566f696a32cb3e6314f05f093b0bf3
       size: 61467
     - path: abzug/iii.csv
-      md5: 8bcbf22561e717680eaeeed346e22868
-      size: 244917
+      md5: 32febb18588830d97f825eaf79f87b6c
+      size: 247951
     - path: abzug/iii.xlsx
-      md5: 80e693a3355389d065161ffd55e1593e
-      size: 141744
+      md5: 2d156ae67dff2861704a390ddc623d01
+      size: 144830
     - path: abzug/iv.csv
-      md5: 9c631428c23db99e6135e5e9daa04067
-      size: 837544
+      md5: 6a46dd2db24e34821966d5714dbfcc85
+      size: 839532
     - path: abzug/iv.xlsx
-      md5: 2a61dc9c64b37bd01b60e61352609d62
-      size: 428392
+      md5: afbca0e423aacc6e8e533013f430f4a6
+      size: 429379
     - path: abzug/schreibmeister.csv
-      md5: 6988277e275db071acf3721951f58c01
-      size: 54285
+      md5: 00aff2795a9598b338890bb01b497aba
+      size: 54281
     - path: abzug/schreibmeister.xlsx
-      md5: 1da5f5b4ad72263da8c298113702a179
-      size: 34618
+      md5: 19f497c637e3c5a6ec2b863ff8ff2383
+      size: 34616
     - path: listen_out/böink.xlsx
-      md5: 2a0674e3637eb1c3c28980cf41f8d20f
-      size: 139780
+      md5: edc4883ef65e33aae21532d175538312
+      size: 140899
     - path: listen_out/böm.xlsx
-      md5: 968b02b300043665ffe3c15833acbe4f
-      size: 279316
+      md5: 1c8b1ed9ee2f5284fb8dbcbf7f0cb174
+      size: 280798
     - path: listen_out/ii.xlsx
-      md5: 7aead5e382776a52c3acabf4f6f72f2f
-      size: 343376
+      md5: fef80824e5bb0de5c9f1721978944833
+      size: 346290
     - path: listen_out/iii.xlsx
-      md5: 3baaa080d2e62a59a38fd2cff85d1a5d
-      size: 547301
+      md5: 9d43d44fb004ed158aa9467634f9d619
+      size: 557807
     - path: listen_out/iv.xlsx
-      md5: 375df3b4d99402cb9bf01ce433e183a3
-      size: 2259712
+      md5: c2f02288fee9992239ef0d8ff06be97f
+      size: 2224817
     - path: listen_out/schreibmeister.xlsx
-      md5: e4e02cea5156df19addb0840bd9b8438
-      size: 167233
+      md5: 4933930fc68ec061d4a2ded0b9fad50b
+      size: 167245
